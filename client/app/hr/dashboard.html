@@ -1,0 +1,143 @@
+<div class="row viewBackground hr-dashboard" ng-controller="hrCtrl" ng-init="dashboard.init()">
+	<div class="panel-body">
+		<div class="row varspace">
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">No of Emplooyees Present</div>
+				<div class="table-responsive dashboardDiv">
+					<table class="table table-condensed table-bordered table-striped table-theme table-head-fix">
+						<thead>
+							<tr>
+								<th class="word-wrap">Process</th>
+								<th>Employee</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="home.presentEmployee.length" ng-repeat="present in home.presentEmployee">
+								<td>{{present.process}}</td>
+								<td>{{present.employee}}</td>
+							</tr>
+							<tr ng-if="!home.presentEmployee.length">
+								<td colspan="2">No Records</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Attendance not Punched</div>
+				<div class="table-responsive dashboardDiv">
+					<table class="table table-condensed table-bordered table-striped table-theme table-head-fix">
+						<thead>
+							<tr>
+								<th class="word-wrap" style="width: 50%">Day</th>
+								<th>Night</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><div ng-if="home.singlePunch.day.length" ng-repeat="emp in home.singlePunch.day">{{emp.full_name}}-{{emp.emp_code}}</div></td>
+								<td><div ng-if="home.singlePunch.night.length" ng-repeat="emp in home.singlePunch.night">{{emp.full_name}}-{{emp.emp_code}}</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Late Comers</div>
+				<div class="table-responsive dashboardDiv">
+					<table class="table table-condensed table-bordered table-striped table-theme table-head-fix">
+						<thead>
+							<tr>
+								<th class="word-wrap" style="width: 50%">Day</th>
+								<th>Night</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><div ng-if="home.late_comer.day.length" ng-repeat="emp in home.late_comer.day">{{emp.full_name}}-{{emp.emp_code}}</div></td>
+								<td><div ng-if="home.late_comer.night.length" ng-repeat="emp in home.late_comer.night">{{emp.full_name}}-{{emp.emp_code}}</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row varspace">
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Today's Birthday</div>
+				<div class="table-responsive dashboardDiv">
+					<table class="table table-condensed table-bordered table-striped table-theme table-head-fix">
+						<thead>
+							<tr>
+								<th>Emp code</th>
+								<th class="word-wrap" style="width: 80%">Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="home.birthday.length" ng-repeat="emp in home.birthday">
+								<td>{{emp.employee_code}}</td>
+								<td>{{emp.full_name}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Appraisal Pending</div>
+				<div class="table-responsive dashboardDiv">
+					<table class="table table-condensed table-bordered table-striped table-theme table-head-fix">
+						<thead>
+							<tr>
+								<th>Emp code</th>
+								<th class="word-wrap" style="width: 80%">Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="home.appraisal.length" ng-repeat="emp in home.appraisal">
+								<td>{{emp.employee_code}}</td>
+								<td>{{emp.full_name}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Approved Leave in next Week</div>
+				<div class="table-responsive dashboardDiv">
+					<table class="table table-condensed table-bordered table-striped table-theme table-head-fix">
+						<thead>
+							<tr>
+								<th>Emp code</th>
+								<th class="word-wrap" style="width: 80%">Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="home.appraisal1.length" ng-repeat="emp in home.appraisal">
+									<td>{{emp.employee_code}}</td>
+									<td>{{emp.full_name}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+		<div class="row varspace">
+			<div class="col-lg-4 col-md-4 col-sm-4" >
+				<div class="title-background center">Kaizen</div>
+				<div class="total_count" ng-if="chartLength > 0">
+					<highchart id="chart1" series="chart.series" title="chart.title" options="chart.options"></highchart>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Training</div>
+				<div class="total_count">
+					<highchart id="chart1" series="chart.series" title="chart.title" options="chart.options"></highchart>
+				</div>
+			</div><div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Training in next week</div>
+				<div class="total_count">{{home.absent_today}}</div>
+			</div>
+		</div>
+	</div>
+</div>

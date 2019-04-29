@@ -1,0 +1,48 @@
+<div class="row viewBackground" ng-init="viewEmployee();">
+	<div class="panel-body">
+		<div class="row varspace">
+			<div class="col-lg-3 col-md-3 col-sm-3">
+				<label>Filter </label>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3">
+				<span class="radio-inline">
+					<input type="radio" id="dateWise" class="form-control" name="searchType" i-check ng-model="filter.searchType" value="byDate" ng-change="refreshData();" />
+					<label for="dateWise">By Date</label>
+				</span>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3">
+				<span class="radio-inline">
+					<input type="radio" id="Employee" class="form-control" name="searchType" i-check ng-model="filter.searchType" value="byEmp" ng-change="refreshData();" />
+					<label for="Employee">By Employee</label>
+				</span>
+			</div>
+		</div>
+		<form method="post" class="searchAttendanceForm" role="form" data-parsley-validate>
+			<div class="row varspace">
+				<div class="col-lg-3 col-md-3 col-sm-3" >
+
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3" ng-show="filter.searchType=='byEmp'">
+					<select class="form-control" ng-model="filter.emp_id" ng-change="attendance.showResult();">
+						<option value="" selected disabled class="hide">Select employee</option>
+						<option ng-repeat="emp in employeeList" value="{{emp.emp_id}}">{{emp.full_name}}{{emp.father_name ? '-'+emp.father_name : ''}}</option>
+					</select>
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2">
+					<input type="text" id="fromDate" class="form-control custom-only-datepicker" autocomplete="off" placeholder="From Date" ng-model="filter.from_date"  data-parsley-required />
+					<ul ng-if="error" class="parsley-errors-list filled"><li class="parsley-required" ng-bind="error"></li></ul>
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2">
+						<input type="text" id="toDate" class="form-control  custom-only-datepicker" autocomplete="off" placeholder="To Date" ng-model="filter.to_date"  data-parsley-required />
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2">
+					<button type="submit"  class="btn btn-primary pull-right" ng-click="attendance.showResult();">Search</button>
+				</div>
+			</div>
+		</form>
+		<div class="table-responsive tableDivHeight">
+			<div id="map" style="width: 500px; height: 400px;"></div>
+
+		</div>
+	</div>
+</div>

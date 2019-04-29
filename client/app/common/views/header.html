@@ -1,0 +1,170 @@
+<style type="text/css">
+  .red {color: red;}
+  .green {color: green;}
+  .resize-height li a {min-height: auto !important;}
+  .overriteBG > li > a:hover, .overriteBG > li > a:focus, .overriteBG .open>a, .overriteBG .open>a:hover, .overriteBG .open>a:focus {
+    background-color: transparent !important;
+  }
+  .username{color:#fff;position: absolute;padding: 20px 0px;}
+</style>
+
+<div class="navbar navbar-inverse navbar-fixed-top" ng-init="initHeader()">
+  <div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-2">
+      <div class="navbar-header">
+        <a class="navbar-brand">
+          <!-- <img src="assets/images/logo.png" width="114" height="50" /> -->
+          Admin Panel
+        </a>
+      </div>
+    </div>
+    <!-- <div class="col-lg-10 col-md-10 col-sm-10 bgFestiveImg"> -->
+    <div class="col-lg-10 col-md-10 col-sm-10">
+      <span class="username">Welcome {{userDetail.userName}}</span>
+      <div class="navbar-tools" id="dvHeaderData">
+        <ul class="nav navbar-right overriteBG">
+          <li ng-click="notify.viewFeedback();">
+            <a href="">
+              <i data-toggle="tooltip" title="Feedback" data-placement="bottom" tooltip class="fa fa-comment"></i>
+            </a>
+          </li>
+          <li ng-click="notify.viewHoliday();">
+            <a href="">
+              <i data-toggle="tooltip" title="Holiday List" data-placement="bottom" tooltip class="fa fa-forumbee"></i>
+            </a>
+          </li>
+          <li class="dropdown">
+            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="" ng-click="notify.update()">
+              <i data-toggle="tooltip" title="Notifications" data-placement="bottom" tooltip class="fa fa-bell-o"></i>
+              <span class="badge" ng-if="notificationCount>0">{{notificationCount}}</span>
+            </a>
+            <ul class="dropdown-menu notifications">
+              <li>
+                <span class="dropdown-menu-title" ng-if="notificationCount>0"> You have {{notificationCount}} new notification{{notificationCount>1?"s":""}}</span>
+                <span class="dropdown-menu-title" ng-if="notificationCount==0"> No new notification</span>
+              </li>
+              <li>
+                <div class="drop-down-wrapper">
+                  <ul class="">
+                    <li ng-repeat="item in notifications| limitTo:10">
+                      <p>
+                        <span class="message" ng-class="{'text-bold':item.isRead==0}" ng-bind-html="trustHTML(item.title)"></span>
+                        <span class="time">{{item.Duration}}</span>
+                      </p>
+                    </li>
+                    <li ng-if="notifications.length==0">
+                      <p>
+                        <span class="message">No notification to display.</span>
+                        <span class="time"></span>
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="view-all" ng-if="notifications.length==10">
+                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="" ng-click="notify.viewAll()">
+                  View all notifications <i class="fa fa-arrow-circle-o-right"></i>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li ng-click="logout();">
+            <a href="">
+              <i class="fa fa-sign-out"></i>
+              &nbsp;Log Out
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="NotificationPopup">
+  <div class="ngdialog-message">
+    <div class="row ngDialogTitle">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <h4>All Notifications</h4>
+      </div>
+    </div>
+    <div class="row ngDialogContent">
+      <div style="max-height:342px;overflow:scroll;">
+        <ul class="activities">
+          <li ng-repeat="item in notificationsAll">
+            <div class="activity">
+              <span class="notification-big-icon">
+                <i class="fa fa-circle"></i>
+              </span>
+              <span class="message" ng-class="{'text-bold':item.isRead==0}" ng-bind-html="trustHTML(item.title)"></span>
+              <span class="time">{{item.Duration}}</span><br />
+              <span class="date">{{item.created_date}}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="HolidayPopup">
+    <div class="ngdialog-message">
+      <div class="row ngDialogTitle">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <h4>Holiday List</h4>
+        </div>
+      </div>
+      <div class="row ngDialogContent">
+        <div class="table-responsive">
+          <table class="table table-bordered table-condensed table-theme">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-if="holidayList.length" ng-repeat="list in holidayList track by list.id">
+                <td>{{list.holiday_name}}</td>
+                <td>{{list.holiday_date}} - {{list.day}}</td>
+              </tr>
+              <tr ng-if="!holidayList.length" colspan="2">
+                <td colspan="2">No Records.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/ng-template" id="FeedbackPopup">
+      <div class="ngdialog-message">
+        <div class="row ngDialogTitle">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <h4>FeedBack</h4>
+          </div>
+        </div>
+        <div class="row ngDialogContent">
+          <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-theme">
+              <thead>
+                <tr>
+                  <th>Screen Shot</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-if="feedbackList.length" ng-repeat="list in feedbackList">
+                  <td><img src="server/uploads/feedback/{{list.image_name}}" width="100"/></td>
+                  <td>{{list.description}}</td>
+                  <td>{{list.status == '1'?  'Resolved' : 'Pending'}}</td>
+                  <td>{{list.created_at}}</td>
+                </tr>
+                <tr ng-if="!feedbackList.length" colspan="2">
+                  <td colspan="2">No Records.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </script>

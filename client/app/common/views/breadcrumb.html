@@ -1,0 +1,14 @@
+<div class="row" >
+    <div class="col-sm-12">
+        <ncy-breadcrumb></ncy-breadcrumb>
+        <form class="sidebar-search pull-right" ng-if="userDetail.roleId == 4">
+            <div class="form-group">
+                <!-- <input type="text" placeholder="Start Searching..." ng-model="searchFor" >
+                <button class="submit" ng-click="main.userSearch.globalSearch(searchFor,$event)">
+                    <i class="clip-search-3"></i>
+                </button> -->
+                <span ng-click="advanceSearch.openPopup();">Advance Search</span>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+<div class="row viewBackground" ng-init="employee.viewLeaveApplication(); filter.type='all'; viewEmployee();">
+	<div class="panel-body">
+		<div class="row varspace">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<button class="btn btn-primary pull-right" ng-click="openPopup('new', 'leaveApplication', 600);">
+					<i class="fa fa-plus"></i> Add Leave Application
+				</button>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table id="employeeTable"
+			page-items="7"
+			class="table table-striped table-bordered table-condensed table-theme"
+			tr-ng-grid=""
+			items="employeeLeaveApplication"
+			selected-items="selectedComplain"
+			selection-mode="SingleRow"
+			enable-filtering="true"
+			enable-sorting="true">
+			<thead>
+				<tr>
+					<th field-name="employee_code" display-name="Employee Code" enable-filtering="false"></th>
+					<th field-name="full_name" display-name="Employee Name" enable-filtering="false" enable-sorting="false"></th>
+					<th field-name="leave_from" display-name="From Date" enable-filtering="false" enable-sorting="false"></th>
+					<th field-name="leave_to" display-name="To Date" enable-filtering="false" enable-sorting="false"></th>
+					<th field-name="status" display-name="Status" enable-filtering="false" enable-sorting="false"></th>
+					<th field-name="file_name" display-name="Application Form" enable-filtering="false" enable-sorting="false"></th>
+					<th field-name="created_at" display-name="Created Date" enable-filtering="false" enable-sorting="false"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<td field-name="file_name">
+					<div ng-if="gridItem.file_name"><a href="{{uploadPATH}}leaveApplication/{{gridItem.id}}_{{gridItem.file_name}}" target="_blank"><i class="fa fa-file-pdf-o"></i> {{gridItem.file_name}}</a></div>
+					</td>
+					<td field-name="manage">
+						<button class="btn btn-transparent" data-toggle="tooltip" title="Edit" data-placement="bottom" tooltip ng-click="openPopup('edit', 'leaveApplication', 600, gridItem);">
+							<i class="fa fa-edit"></i>
+						</button>
+						<button class="btn btn-transparent" data-toggle="tooltip" title="Delete" data-placement="bottom" tooltip ng-click="employee.deleteLeaveApplication(gridItem);">
+							<i class="fa fa-trash"></i>
+						</button>
+					</td>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="leaveApplication">
+	<div class="ngdialog-message">
+		<div class="row ngDialogTitle">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<h4 ng-if="isView == 'New'">Add Leave Application</h4>
+				<h4 ng-if="isView == 'Edit'">Edit Leave Application</h4>
+			</div>
+		</div>
+		<div class="row ngDialogContent">
+			<form class="leaveApplicationForm" method="post" role="form" data-parsley-validate>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 popupHeight">
+						<div class="row varspace">
+							<div class="col-lg-5 col-md-5 col-sm-5">Name</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<select class="form-control" ng-model="formObj.emp_id" data-parsley-required>
+									<option value="" selected disabled class="hide">Please select</option>
+									<option ng-repeat="employee in employeeList" value="{{employee.emp_id}}">{{employee.full_name}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">From Date</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input id="dobTextField" type="text" class="form-control custom-only-datepicker" autocomplete="off" ng-model="formObj.leave_from" >
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">To Date</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input id="dobTextField" type="text" class="form-control custom-only-datepicker" autocomplete="off" ng-model="formObj.leave_to" >
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Application Form</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+									<input type="file" name="applicationFile" id="applicationFile" />
+									<div id="applicationFileDropBox" ng-if="formObj.file_name"><a href="uploads/leaveApplication/{{formObj.id}}_{{formObj.file_name}}.pdf" target="_blank"><i class="fa fa-file"></i> {{formObj.file_name}}</a></div>
+							</div>
+						</div>
+						<div class="row varspace">
+							<div class="col-lg-5 col-md-5 col-sm-5">Status</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<select class="form-control" ng-model="formObj.status" data-parsley-required>
+									<option value="" selected disabled class="hide">Please select</option>
+									<option value="approved">Approved</option>
+									<option value="rejected">Rejected</option>
+									<option value="pending">Pending</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="ngdialog-buttons row center-block">
+			<button type="submit" class="ngdialog-button btn btn-primary" ng-click="employee.saveLeaveApplication();">Save</button>
+		</div>
+	</div>
+</script>

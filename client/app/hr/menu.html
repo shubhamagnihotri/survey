@@ -1,0 +1,56 @@
+<ul class="main-navigation-menu">
+	<li>
+		<a ui-sref="main.hr.dashboard">
+			<i class="fa fa-home"></i>
+			<span class="title">Dashboard </span>
+			<span class="selected"></span>
+		</a>
+	</li>
+	<li ng-if="userDetail.roleId == 10">
+		<a ui-sref="main.hr.employee({pageType: 'view'})">
+			<i class="fa fa-user"></i>
+			<span class="title">Users </span>
+			<span class="selected"></span>
+		</a>
+		<ul class="sub-menu sub-menu-height">
+			<li>
+				<a ui-sref="main.hr.employee({pageType: 'view'})" ng-class="{active:$state.current.ncyBreadcrumbLink ==='#/hr/employee/view'}">
+					<span class="title">View</span>
+				</a>
+			</li>
+		</ul>
+	</li>
+	<li ng-if="userDetail.roleId == 10">
+		<a ui-sref="main.hr.attendance({pageType: 'view'})">
+			<i class="fa fa-reorder"></i>
+			<span class="title">Survey </span>
+			<span class="selected"></span>
+		</a>
+		<ul class="sub-menu sub-menu-height">
+			<li>
+				<a ui-sref="main.hr.attendance({pageType: 'view'})" ng-class="{active:$state.current.ncyBreadcrumbLink ==='#/hr/attendance/view'}">
+					<span class="title">MAP View</span>
+				</a>
+			</li>
+			<li>
+				<a ui-sref="main.hr.attendance({pageType: 'overtime'})" ng-class="{active:$state.current.ncyBreadcrumbLink ==='#/hr/attendance/overtime'}">
+					<span class="title">View</span>
+				</a>
+			</li>
+		</ul>
+	</li>
+	<li>
+		<a ui-sref="main.hr.salaryMaster({pageType: 'view'})">
+			<i class="fa fa-money"></i>
+			<span class="title">Reports </span>
+			<span class="selected"></span>
+		</a>
+		<ul class="sub-menu sub-menu-height">
+			<li>
+				<a ui-sref="main.hr.salaryMaster({pageType: 'view'})" ng-class="{active:$state.current.ncyBreadcrumbLink ==='#/hr/salaryMaster/view'}">
+					<span class="title">View</span>
+				</a>
+			</li>
+		</ul>
+	</li>
+</ul>

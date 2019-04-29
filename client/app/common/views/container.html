@@ -1,0 +1,34 @@
+﻿<!-- start: MAIN CONTAINER -->
+<div class="main-container">
+
+	<!-- Navigation Menu -->
+	<!-- start: SIDEBAR -->
+	<div class="main-navigation navbar-collapse collapse">
+		<!-- start: MAIN MENU TOGGLER BUTTON -->
+		<div class="navigation-toggler" ng-if="activeMenu != 'dashboard'">
+			<span class="fa fa-bars" style="color:#0082b6 !important;"></span>
+		</div>
+		<!-- end: MAIN MENU TOGGLER BUTTON -->
+		<!-- start: MAIN NAVIGATION MENU -->
+		<div ui-view="menu"></div>
+		<!-- end: MAIN NAVIGATION MENU -->
+	</div>
+	<!-- end: SIDEBAR -->
+	<!-- end: Navigation Menu -->
+	<!-- start: PAGE -->
+	<div class="main-content">
+		<div class="container">
+			<!-- PAGE TITLE & BREADCRUMB -->
+			<div id="dvBreadCrum" ng-include="'client/app/common/views/breadcrumb.html'"></div>
+			<!-- end: PAGE TITLE & BREADCRUMB -->
+			<div id="loading-bar-div">
+				<div id="loading-bar-container"></div>
+			</div>
+			<!-- PAGE Content -->
+			<div ui-view="content"></div>
+			<!-- end: PAGE Content -->
+		</div>
+	</div>
+	<!-- end: PAGE -->
+</div>
+<!-- end: MAIN CONTAINER -->

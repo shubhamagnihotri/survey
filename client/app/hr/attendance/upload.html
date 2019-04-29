@@ -1,0 +1,63 @@
+<style>
+#dropBox{
+    padding: 10px 15px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #01b7a8;
+}
+</style>
+<div class="row viewBackground">
+	<div class="panel-body">
+		<div class="row varspace">
+			<div class="col-lg-3 col-md-3 col-sm-3">
+				<label>Upload Attendance CSV File</label>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3">
+				<form>
+					<input type="file" name="fileInput" id="fileInput" />
+					<div id="dropBox"></div>
+				</form>
+			</div>
+			<div class="col-lg-5 col-md-5 col-sm-5"></div>
+		</div>
+		<div class="table-responsive tableDivHeight">
+			<table id="attendanceTable" class="table table-striped table-bordered table-condensed table-theme">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Employee Code</th>
+						<th>Employee Name</th>
+						<th>Shift</th>
+						<th>In Time</th>
+						<th>Out Time</th>
+						<th>Duration</th>
+						<th>Late By</th>
+						<th>Early By</th>
+						<th>Status</th>
+						<th>Punch Record</th>
+						<th>Overtime</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-if="finalArr.length" ng-repeat="data in finalArr">
+						<td class="word-wrap">{{data.Date}}</td>
+						<td>{{data.EmployeeCode}}</td>
+						<td>{{data.EmployeeName}}</td>
+						<td>{{data.Shift}}</td>
+						<td>{{data.InTime}}</td>
+						<td>{{data.OutTime}}</td>
+						<td>{{data.Duration}}</td>
+						<td>{{data.LateBy}}</td>
+						<td>{{data.EarlyBy}}</td>
+						<td>{{data.Status}}</td>
+						<td style="width:150px;">{{data.PunchRecords}}</td>
+						<td>{{data.Overtime}}</td>
+					</tr>
+					<tr ng-if="!finalArr.length">
+						<td colspan="12">No Records Found</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

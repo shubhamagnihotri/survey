@@ -1,0 +1,105 @@
+<div class="row viewBackground" ng-init="viewEmployee();">
+	<div class="panel-body">
+		<div class="borderDiv">
+		<div class="row varspace">
+			<div class="col-lg-3 col-md-3 col-sm-3">
+				<label>Filter </label>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3">
+				<span class="radio-inline">
+					<input type="radio" id="dateWise" class="form-control" name="searchType" i-check ng-model="filter.searchType" value="byMonth" ng-change="refreshData();" />
+					<label for="dateWise">Month Wise</label>
+				</span>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3">
+				<span class="radio-inline">
+					<input type="radio" id="Employee" class="form-control" name="searchType" i-check ng-model="filter.searchType" value="byYear" ng-change="refreshData();" />
+					<label for="Employee">Year Wise</label>
+				</span>
+			</div>
+		</div>
+		<form method="post" class="searchAttendanceForm" role="form" data-parsley-validate>
+			<div class="row varspace">
+				<div class="col-lg-3 col-md-3 col-sm-3" >
+
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3" ng-if="filter.searchType=='byYear'">
+					<select class="form-control" ng-model="filter.emp_id" data-parsley-required >
+						<option value="" selected disabled class="hide">Select employee</option>
+						<option ng-repeat="emp in employeeList" value="{{emp.emp_id}}">{{emp.full_name}}{{emp.father_name ? '-'+emp.father_name : ''}}</option>
+					</select>
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2">
+					<input ng-if="filter.searchType=='byYear'" type="text" id="fromDate" class="form-control custom-only-datepicker" autocomplete="off" placeholder="From Month" ng-model="filter.from_date"  data-parsley-required />
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2">
+					<input ng-if="filter.searchType=='byYear'" type="text" id="fromDate" class="form-control custom-only-datepicker" autocomplete="off" placeholder="To Month" ng-model="filter.to_date"  data-parsley-required />
+					<input ng-if="filter.searchType!='byYear'" type="text" id="fromDate" class="form-control custom-only-datepicker" autocomplete="off" placeholder="Month" ng-model="filter.from_date"  data-parsley-required />
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2">
+					<button type="submit"  class="btn btn-primary pull-right" ng-click="attendance.filterView();">Search</button>
+				</div>
+			</div>
+		<div class="row" style="margin-top: 20px;">
+			<div class="col-md-12 right">
+				<span class="radio-inline">
+					<span class="leave-label" style="background: red;">A</span>
+					<label for="Employee">Unplanned Leave</label>
+				</span>
+				<span class="radio-inline">
+					<span class="leave-label" style="background: #A8D08D;">A</span>
+					<label for="Employee">Planned Leave</label>
+				</span>
+				<span class="radio-inline">
+					<span class="leave-label" style="background: #42f4f1;">W</span>
+					<label for="Employee">Weekly Off</label>
+				</span>
+				<span class="radio-inline">
+					<span class="leave-label" style="background: #4E80EB;">H</span>
+					<label for="Employee">Holiday</label>
+				</span>
+				<span class="radio-inline">
+					<span class="leave-label" style="background: #FFC7CE;">P</span>
+					<label for="Employee">Early Exit</label>
+				</span>
+				<span class="radio-inline">
+					<span class="leave-label" style="background: #FF7F27;">P</span>
+					<label for="Employee">Late Coming</label>
+				</span>
+			</div>
+		</div>
+		</form>
+	</div>
+		<div class="table-responsive tableDivHeight mt-30">
+			<table id="filterViewTable" class="table table-striped table-bordered table-condensed table-theme attendance-tbl">
+				<thead ng-repeat="(key, data) in filterResult  | limitTo : 1 : 0 track by $index" >
+					<tr ng-repeat="res in data  | limitTo : 1 : 0 track by $index" >
+						<th>Name</th>
+						<th>Code</th>
+						<th>Process</th>
+						<th ng-if="filter.searchType=='byYear'">Month</th>
+						<th ng-repeat="n in [].constructor((filter.searchType=='byYear' ? 31 : res.total_days)) track by $index" >{{$index+1}}</th>
+						<th>Total Present</th>
+						<th>Total Late</th>
+						<th>Total Leave</th>
+						<th>Total OT</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="(key, data) in filterResult">
+					<tr ng-repeat="res in data">
+						<th>{{res.emp.full_name}}</th>
+						<th>{{res.emp.employee_code}}</th>
+						<th>{{res.emp.role}}</th>
+						<th ng-if="filter.searchType=='byYear'">{{res.emp.month_name}}</th>
+						<td ng-repeat="attData in res.days" style="background: {{attData.color}}">{{attData.att}}</td>
+						<td ng-if="filter.searchType=='byYear'" ng-repeat="n in [].constructor(31-res.total_days) track by $index">-</td>
+						<th>{{res.emp.total_present}}</th>
+						<th>{{res.emp.total_late}}</th>
+						<th>{{res.emp.total_leave}}</th>
+						<th>{{res.emp.totalOT}}</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

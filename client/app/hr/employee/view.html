@@ -1,0 +1,213 @@
+<div class="row viewBackground" ng-init="employee.view();">
+	<div class="panel-body">
+		<div class="row varspace">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<button class="btn btn-primary pull-right" ng-click="openPopup('new', 'employee', 1000);">
+					<i class="fa fa-plus"></i> Add Employee
+				</button>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table id="employeeTable"
+				   page-items="7"
+				   class="table table-striped table-bordered table-condensed table-theme"
+				   tr-ng-grid=""
+				   items="employeeList"
+				   selected-items="selectedComplain"
+				   selection-mode="SingleRow"
+				   enable-filtering="true"
+				   enable-sorting="true">
+				<thead>
+					<tr>
+						<th field-name="employee_code" display-name="Code Code" enable-filtering="false"></th>
+						<th field-name="full_name" display-name="Employee Name" enable-filtering="false" enable-sorting="false"></th>
+						<th field-name="father_name" display-name="Father's Name" enable-filtering="false" enable-sorting="false"></th>
+						<th field-name="contact_detail" display-name="Contact" enable-filtering="false" enable-sorting="false"></th>
+						<th field-name="type" display-name="Type" enable-filtering="false" enable-sorting="false"></th>
+						<th field-name="doj" display-name="Joining Date" enable-filtering="false" enable-sorting="false"></th>
+						<th field-name="manage" display-name="Manage" enable-filtering="false" enable-sorting="false"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<td field-name="contact_detail">
+						<div ng-if="gridItem.phone"><i class="fa fa-phone"></i> {{gridItem.phone}}, {{gridItem.alternate_phone}}</div>
+						<div ng-if="gridItem.email"><i class="fa fa-envelope-o"></i> {{gridItem.email}}</div>
+					</td>
+					<td field-name="manage" style="width: 210px;">
+						<button class="btn btn-transparent" data-toggle="tooltip" title="Edit" data-placement="bottom" tooltip ng-click="openPopup('update', 'employee', 1000, gridItem);">
+							<i class="fa fa-edit"></i>
+						</button>
+						<button class="btn btn-transparent" data-toggle="tooltip" title="Delete" data-placement="bottom" tooltip ng-click="employee.delete(gridItem);">
+							<i class="fa fa-trash"></i>
+						</button>
+					</td>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="employee">
+    <div class="ngdialog-message">
+        <div class="row ngDialogTitle">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h4 ng-if="isView == 'New'">Add User</h4>
+								<h4 ng-if="isView == 'Edit'">Edit User</h4>
+            </div>
+        </div>
+        <div class="row ngDialogContent">
+        	<form class="addEmployeeForm" method="post" role="form" data-parsley-validate>
+	            <div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 popupHeight">
+						<div class="row varspace">
+							<div class="col-lg-5 col-md-5 col-sm-5">Type</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<select class="form-control" ng-model="formObj.category" data-parsley-required>
+									<option value="" selected disabled class="hide">Please select</option>
+									<option selected value="staff">Admin</option>
+									<option  value="supervisor">Supervisor</option>
+									<option  value="surveyor">Surveyor</option>
+								</select>
+							</div>
+						</div>
+						<div class="row varspace">
+							<div class="col-lg-5 col-md-5 col-sm-5">Name</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" class="form-control" ng-model="formObj.full_name" data-parsley-required >
+							</div>
+						</div>
+						<div class="row varspace">
+							<div class="col-lg-5 col-md-5 col-sm-5">Father's Name</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" class="form-control" ng-model="formObj.father_name" data-parsley-minlength="4" data-parsley-pattern="^[a-zA-Z ]+$" >
+							</div>
+						</div>
+						<div class="row varspace">
+							<div class="col-lg-5 col-md-5 col-sm-5">Office Phone</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" maxlength="10" class="form-control" ng-model="formObj.phone" data-parsley-type="digits" >
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Personal Phone</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" maxlength="10" class="form-control" ng-model="formObj.personal_phone" data-parsley-type="digits">
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Alternative Phone</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" maxlength="10" class="form-control" ng-model="formObj.alternate_phone" data-parsley-type="digits">
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Office Email</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" class="form-control" ng-model="formObj.email" data-parsley-type="email">
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Personal Email</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" class="form-control" ng-model="formObj.personal_email" data-parsley-type="email">
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Date of Birth</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input id="dobTextField" type="text" class="form-control custom-datepicker" ng-model="formObj.dob" >
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Address</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<span class="checkbox-inline">
+									<input type="checkbox" i-check ng-model="formObj.same_address" ng-change="employee.updateAddress();" />
+									Same address
+								</span>
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								<textarea class="form-control" ng-model="formObj.temporary_address" ng-change="employee.updateAddress();" placeholder="Temporary Address" ></textarea>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								<textarea class="form-control" ng-disabled="formObj.same_address" ng-model="formObj.permanent_address" placeholder="Permanent Address" ></textarea>
+							</div>
+						</div>
+						<div class="row varspace">
+							<div class="col-lg-5 col-md-5 col-sm-5">Gender</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<select class="form-control" ng-model="formObj.gender" >
+									<option value="" selected disabled class="hide">Please select</option>
+									<option value="Male">Male</option>
+									<option value="Female">Female</option>
+								</select>
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Blood Group</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<select  class="form-control" ng-model="formObj.blood_group">
+									<option value="">Please select</option>
+									<option value="A+">A +</option>
+									<option value="A-">A -</option>
+									<option value="B+">B +</option>
+									<option value="B-">B -</option>
+									<option value="AB+">AB +</option>
+									<option value="AB-">AB -</option>
+									<option value="O+">O +</option>
+									<option value="O-">O -</option>
+								</select>
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Qualification</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<select class="form-control" ng-model="formObj.qualification" >
+									<option value="" selected disabled class="hide">Please select</option>
+									<option value="below_8">Below 8th Pass</option>
+									<option value="8th">8th Pass</option>
+									<option value="Highschool">High School</option>
+									<option value="Intermediate">Intermediate</option>
+									<option value="ITI">ITI</option>
+									<option value="Diploma">Diploma</option>
+									<option value="Graduate">Graduate</option>
+									<option value="PG">Post-Graduate</option>
+									<option value="BE/BTech">B.E./B.Tech</option>
+								</select>
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Experience</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" class="form-control" ng-model="formObj.experience" data-parsley-type="digits" >
+							</div>
+						</div>
+						<div class="row varspace" >
+							<div class="col-lg-5 col-md-5 col-sm-5">Date of Joining</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input id="dojTextField" type="text" class="form-control custom-datepicker" ng-model="formObj.doj" >
+							</div>
+						</div>
+						<div class="row varspace" ng-if="employee.hideDetailRow();">
+							<div class="col-lg-5 col-md-5 col-sm-5">Username</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" class="form-control" ng-model="formObj.username" data-parsley-minlength="4" data-parsley-pattern="^[a-zA-Z]+$" >
+							</div>
+						</div>
+						<div class="row varspace" ng-if="employee.hideDetailRow();">
+							<div class="col-lg-5 col-md-5 col-sm-5">Password</div>
+							<div class="col-lg-7 col-md-7 col-sm-7">
+								<input type="text" class="form-control" ng-model="formObj.password">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+        </div>
+        <div class="ngdialog-buttons row center-block">
+            <button type="submit" class="ngdialog-button btn btn-primary" ng-click="employee.save();">Save</button>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,382 @@
+﻿body{
+    font-family:'Segoe UI' !important;
+    font-weight:normal;
+}
+
+/*mac style scroll css*/
+/* Turn on custom 8px wide scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* 1px wider than Lion. */
+    height: 6px;
+    /* This is more usable for users trying to click it. */
+    background-color: rgba(0,0,0,0);
+    -webkit-border-radius: 100px;
+}
+/* hover effect for both scrollbar area, and scrollbar 'thumb' */
+::-webkit-scrollbar:hover {
+    background-color: rgba(0, 0, 0, 0.09);
+}
+
+/* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
+::-webkit-scrollbar-thumb:vertical {
+    /* This is the EXACT color of Mac OS scrollbars.
+        Yes, I pulled out digital color meter */
+    background: rgba(0,0,0,0.5);
+    -webkit-border-radius: 100px;
+    background-clip: padding-box;
+    border: 2px solid rgba(0, 0, 0, 0);
+    min-height: 10px; /*Prevent it from getting too small */
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+    background: rgba(0,0,0,0.61); /* Some darker color when you click it */
+    -webkit-border-radius: 100px;
+}
+
+/* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
+::-webkit-scrollbar-thumb:horizontal {
+    /* This is the EXACT color of Mac OS scrollbars.
+        Yes, I pulled out digital color meter */
+    background: rgba(0,0,0,0.5);
+    -webkit-border-radius: 100px;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0);
+    min-width: 10px; /*Prevent it from getting too small */
+}
+::-webkit-scrollbar-thumb:horizontal:active {
+    background: rgba(0,0,0,0.6); /* Some darker color when you click it */
+    -webkit-border-radius: 100px;
+}
+
+/* login page css start */
+#btn-login{background-color:#20baa3;border: 1px solid #20baa3;height: 40px;font-size: 15px;}
+.loginBox {
+	position: relative;
+	width: 400px;
+	margin: 0 auto;
+	top: 125px;
+	text-align: center;
+	-webkit-box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.05), 0 4px 4px -3px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.05), 0 4px 4px -3px rgba(0, 0, 0, 0.1);
+}
+.loginHead {
+	padding: 22px 15px;
+	color: #666666;
+	background-color: #ffffff;
+	border-color: #e5e5e5;
+}
+.loginHead > div {
+	display: inline-block;
+	margin: 0 auto;
+}
+.loginHead > div img {
+	display: block;
+	float: left;
+	top: 5px;
+	width: 78px;
+	height: 35px;
+	margin: 0;
+	margin-right: 5px;
+}
+.loginHead > div h1 {
+	margin: 0;
+	display: block;
+	float: left;
+}
+.loginHead > div h1 span {
+	display: block;
+	color: #333333;
+}
+.loginHead > div h1 .title {
+	font-size: 35px;
+	line-height: 35px;
+	font-weight: bold;
+	letter-spacing: -1px;
+}
+.loginHead > div h1 .subtitle {
+	font-size: 12px;
+	line-height: 12px;
+	text-align: right;
+}
+.loginBody{
+	margin: 0;
+    padding: 0;
+}
+.loginBody li{
+	padding: 25px 30px;
+	background-color: #fbfbfb;
+	color: #555555;
+	list-style: none;
+}
+.loginBody .login-text{
+	font-size: 16px;
+}
+.loginBody .form-group .error_msg{
+	color:red;
+	font-weight: 500;
+    margin-top: 5%;
+}
+.login-page .form-group label {
+  display: none;
+}
+.loginFooter{
+	background-color: #fff;
+	padding: 10px;
+}
+/* login page css end */
+
+/*calendar UI*/
+.ui-datepicker {width: 16%;padding: 1px;}
+.ui-datepicker .ui-datepicker-header {background: #01B7A8;color: #fff;}
+.ui-datepicker .ui-datepicker-title {line-height: 22px;}
+.ui-datepicker table {margin: 0px;}
+.ui-datepicker th{padding:0px;}
+.ui-icon-circle-triangle-w {background-position: -100px -17px;}
+.ui-icon-circle-triangle-e {background-position: -30px -17px;}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{
+    background: #01B7A8;color: #fff;outline:none;border:none;
+}
+/*calendar UI End*/
+
+/*Left nagivation menu */
+ul.main-navigation-menu > li > a{
+    font-weight:normal !important;
+}
+
+ul.main-navigation-menu li > ul.sub-menu > li > a.active, ul.main-navigation-menu li > ul.sub-menu > li.active > a.active {
+	color: #000000 !important;
+	background: #D9D9D9 !important;
+}
+.sub-menu-height {
+	overflow-x: hidden !important;
+	overflow-y: scroll !important;
+	max-height: 210px !important;
+}
+
+ul.main-navigation-menu li > ul.sub-menu > li > a {
+    font-weight: 400 !important;
+    font-size: 13px !important;
+}
+
+.navbar-inverse .nav li.dropdown.open > .dropdown-toggle {
+    background: #02d1c0 !important;
+    color: #FFFFFF !important;
+	height: 40px;
+}
+.notifications{border:none;}
+
+/*show home icon before breadcrumb*/
+ol.breadcrumb::before {content: "\f015";font-family: FontAwesome;color:#808080;font-size: 16px;padding-right: 0.5em;}
+
+/* dropdown menu */
+.navbar-tools .dropdown-menu li .dropdown-menu-title {
+    background-color: #02d1c0!important;
+    color: #FFFFFF !important;
+}
+
+/*Ng-dialog popup*/
+.ngdialog.ngdialog-theme-plain .ngdialog-content, .ngdialog.ngdialog-theme-custom .ngdialog-content {
+    border-radius: 8px !important;
+    min-height:130px !important;
+    padding: 0.2em 1em !important;
+    font-size:14px !important;
+}
+
+.ngDialogTitle {
+    border-bottom:1px solid #ccc !important;
+    border-radius: 8px 8px 0 0;
+    height:35px;
+}
+
+.ngDialogTitle > div h4{ font-size:16px;color:#428bca !important;}
+
+.ngDialogContent {
+    padding:10px 15px;
+}
+
+.ngdialog.ngdialog-theme-plain .ngdialog-close:before, .ngdialog.ngdialog-theme-custom .ngdialog-close:before {
+    color: #000 !important;
+    font-size: 22px !important;
+    font-weight: 400;
+    cursor: pointer;
+    line-height: 40px !important;
+    filter: alpha(opacity=20);
+    opacity: 0.2;
+}
+
+.closeBtn {
+    width: 25px;
+    height: 25px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    float: right;
+    position: relative;
+    margin: -22% -47% 0 0;
+    padding: 0px 0px 0px 8px;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+/*Added form Ng-grid*/
+.tr-ng-grid .tr-ng-column-header .tr-ng-title {
+    position: relative;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: Segoe UI;
+    white-space:nowrap;
+}
+
+/*parsley validation*/
+.parsley-error:focus {
+  border-color: #bc401a !important;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(188, 64, 26, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(188, 64, 26, 0.6);
+}
+.parsley-errors-list {
+    display: block;
+    text-align: right;
+    list-style: none;
+    color: #bc401a !important;
+    font-size:11px !important;
+    margin: 0;
+}
+
+.viewBackground {background-color: #f5f5f5;}
+.panel-body {margin: 8px !important;padding: 8px !important;background-color: #FFFFFF !important;border-radius: 4px !important;min-height:491px;}
+.text-bold {font-weight:bold;}
+.varspace{padding-bottom:15px !important;}
+.word-wrap, .textwrap {white-space: nowrap !important;}
+.topspace{padding-top:15px !important;}
+.width-45{width: 45%;}
+.width-12{width: 12%;}
+.custom-float-left{float: left;}
+.element-inline{margin-left:15px;}
+.tableDivHeightBtn{overflow:auto;max-height: 555px;}
+.tableDivHeight{overflow:auto;max-height: 520px;}
+.popupHeight{overflow-y: scroll;overflow-x: hidden;max-height: 445px;}
+.fixturePopupHeight{overflow-y: scroll;overflow-x: hidden;max-height: 275px;}
+.btn-transparent{background-color:transparent;border: 0px;outline: 0px;}
+.borderDiv{border:1px solid #ccc;padding: 10px;}
+.table-theme{margin-bottom:0px !important;}
+.table-theme thead tr{background-color:#01B7A8 !important;color:#fff;}
+.trBgColor{background-color:#01B7A8 !important;text-align: center;color:#fff !important;}
+.text-muted{color:#fff;}
+.margin-left-0{margin-left:0px !important;}
+.yScrollTable{overflow: scroll;width: 101%;}
+/*trNgGrid custom tooltip*/
+.tooltip-grid-notes {max-width:300px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.grid_tooltips {word-wrap: break-word;max-width: 600px;position: absolute;display: none;background: none #fff;box-shadow: 0 0 5px #AAA;padding: 8px;z-index: 9999;border-width: 1px;}
+.td-notes .grid_tooltips {right:15px;}
+/*accordion css*/
+.panel-heading{height: 32px !important;}
+.panel-title>a{font-size:14px !important;text-decoration:none !important;font-weight: 500;white-space: nowrap;}
+.panel-title label{padding-top:8px !important;font-weight:500 !important;cursor:pointer;font-size: 14px;white-space: nowrap;}
+.arrowCSS>i{font-size: 20px;font-weight: 600;padding-top: 4px;}
+.panel-group .panel-heading+.panel-collapse>.panel-body {border-top: 0px solid #ddd !important;}
+.small-panel{min-height: auto !important;}
+/*end*/
+.highlight{font-size:10px;color:#0082b6;}
+.custom-error-msg{float: right;color: red;font-size: 11px;}
+.custom-elipsis{width:150px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.boxDiv{width:170px;height:100px;float: left;border:1px solid #ccc;border-radius:7px;margin:5px;padding:7px;color:#fff;cursor:pointer;}
+.dashboardDiv{min-height:230px;max-height: 230px;border:1px solid #ccc;border-bottom: 3px solid #01b7a8;box-shadow: 5px 5px 15px 0px #ccc;}
+.title-background{padding: 5px 10px;font-weight:bold;color: #cb2439;border: 1px solid #ccc;}
+.total_count{height: 95px;border: 1px solid #ccc;border-top: none;text-align: center;font-size: 65px;color: #01b7a8;font-weight: 600;border-bottom: 3px solid #01b7a8;}
+#basecoatTable>thead>tr:first-child>th, #topcoatTable>thead>tr:first-child>th ,#predispatchTable>thead>tr:first-child>th{min-width:150px;}
+/* tab css */
+.nav-tabs.tab-padding {border: none;}
+.nav-tabs {border-bottom: none;}
+.disabledTab{pointer-events: none;cursor: not-allowed;}
+.table-responsive{overflow:scroll;}
+select.consumable{width:40% !important;}
+.custom-pagination {margin: 0px 0px;}
+.dialogButton{float: right;}
+.no-hover {text-decoration: none !important;}
+
+.bgFestiveImg{background-image:url("../assets/images/festival-header.png");background-repeat: no-repeat;}
+
+#prodReportTable, #viewProdTable{width:100% !important;}
+.inputFloat{width:45% !important;}
+.tdBoxSize{padding:0px 0px 5px 0px;}
+.tdBoxSize>span:first-child{font-size: 12px;white-space: nowrap;display: inline-block;width: 70px;}
+
+.datetimepicker-hours>table, .datetimepicker-minutes>table{width:175px;height:185px;}
+.datetimepicker-hours>table>thead>tr{display:none;}
+.datetimepicker-hours>table>tfoot>tr{display:none;}
+.datetimepicker-minutes>table>thead>tr{display:none;}
+.datetimepicker-minutes>table>tfoot>tr{display:none;}
+
+@media screen and (min-device-width: 1600px) and (min-device-height: 900px) and (min-device-width: 1366px) and (min-device-height: 768px){
+    .main-content > .container { min-height: 692px !important;}
+	.panel-body{min-height: 622px;}
+	.tableDivHeight {max-height: 555px;}
+}
+
+@media screen and (min-device-width: 1024px) and (min-device-height: 600px){
+    .navbar-header {width: 102%;}
+	ul.main-navigation-menu > li > a {font-size:14px;}
+	ul.main-navigation-menu > li > a i{font-size:14px;margin-right: 0px;}
+}
+
+.p-0-1{
+  padding: 0 1px;
+}
+.right{
+  text-align: right;
+}
+.left{
+  text-align: left;
+}
+.center{
+  text-align: center;
+}
+.stock-th{
+	width: 25%;
+	text-align: center;
+}
+.stockTable th{
+	text-align: center;
+}
+.inner-tbl{
+	vertical-align: top !important;
+  padding: 0px !important;
+}
+.chk-box{
+  width: 20px;
+  height: 20px;
+}
+.color-red{
+  background-color: red !important;
+  color: #fff !important;
+}
+.attendance-tbl td, .attendance-tbl th{
+  padding: 2px !important;
+  font-size: 10px;
+  width: 5px;
+}
+.kaizen-tbl td, .kaizen-tbl th{
+  padding: 2px !important;
+  font-size: 12px;
+  width: 5px;
+}
+.kaizen-tbl span{
+  padding: 2px 5px;
+}
+.mt-30{
+  margin-top: 30px;
+}
+.leave-label{
+  padding: 2px 10px;
+}
+.highcharts-container, .highcharts-background, .highcharts-root, .highcharts-plot-background {
+    width:100% !important;
+    height:100% !important;
+}
+.hr-dashboard table td{
+  vertical-align: top;
+}
+.highcharts-credits{
+  display: none;
+}

@@ -1,0 +1,40 @@
+<div class="login-page" ng-controller="loginCtrl">
+    <form data-parsley-validate id="formlogin">
+        <div class="loginBox">
+			<div class="loginHead">
+				<div>
+					<!-- <img src="assets/images/logo.png" alt="logo"> -->
+					<h1>
+						<span class="title">
+							ADMIN PANEL
+						</span>
+						<span class="subtitle">
+							&nbsp;
+						</span>
+					</h1>
+				</div>
+			</div>
+			<ul class="loginBody">
+				<li> 
+					<span class="login-text">
+						Login to your account
+					</span>
+					<div class="form-group">
+						<p class="error_msg"></p>
+					</div>
+					<div class="form-group">
+						<label for="email">Username</label>
+						<input type="text" id="username" class="form-control" ng-model="credentials.name" placeholder="Username" ng-enter="login();">
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" id="password" class="form-control" ng-model="credentials.password" placeholder="Password" ng-enter="login();">
+					</div>
+				</li>
+			</ul>
+			<div class="loginFooter">
+				<button id="btn-login" class="btn btn-lg btn-success" ng-click="login();" type="submit">LOGIN TO YOUR ACCOUNT</button>
+			</div>
+		</div>
+    </form>
+</div>

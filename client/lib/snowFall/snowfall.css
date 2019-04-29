@@ -1,0 +1,50 @@
+.snowstar {
+		width: 8px;
+		height: 8px;
+	}
+	@media all and (-ms-high-contrast: none),
+	(-ms-high-contrast: active) {
+		.snowstar {
+			z-index: 0 !important;
+		}
+	}
+	.ie9 .snowstar,
+	.lt-ie9 .snowstar {
+		z-index: 0 !important;
+	}
+	.snowstar:nth-child(50n+1) {
+		text-indent: -99999px;
+		background: url(images/star1.png);
+		width: 10px;
+		height: 16px;
+	}
+	.snowstar:nth-child(50n+2) {
+		text-indent: -99999px;
+		background: url(images/star2.png);
+		width: 15px;
+		height: 16px;
+	}
+	.snowstar:nth-child(50n+3) {
+		text-indent: -99999px;
+		background: url(images/star3.png);
+		width: 13px;
+		height: 16px;
+	}
+	.snowstar:nth-child(50n+4) {
+		text-indent: -99999px;
+		background: url(images/star4.png);
+		width: 13px;
+		height: 16px;
+	}
+	.snowstar:nth-child(50n+5) {
+		text-indent: -99999px;
+		background: url(images/star5.png);
+		width: 16px;
+		height: 16px;
+	}
+	.snowstar:nth-child(50n+6) {
+		text-indent: -99999px;
+		background: url(images/star6.png);
+		width: 10px;
+		height: 10px;
+	}

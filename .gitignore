@@ -1,0 +1,6 @@
+new.cert.key
+new.ssl.csr
+privkey.pem
+index.html
+server/config/dbconfig.php
+uploads

@@ -1,0 +1,14 @@
+<style>
+	#popupDiv>.title-background{display:none;}
+	#popupDiv>.dashboardDiv{min-height: 330px; max-height: 575px;}
+</style>
+<div class="ngdialog-message">
+	<div class="row ngDialogTitle">
+		<div class="col-lg-12 col-md-12 col-sm-12">
+			<h4>{{ngDialogData.title}}</h4>
+		</div>
+	</div>
+	<div class="row ngDialogContent">
+		<div id="popupDiv" ng-bind-html="ngDialogData.divData"></div>
+	</div>
+</div>
