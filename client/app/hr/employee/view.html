@@ -62,12 +62,9 @@
 						<div class="row varspace">
 							<div class="col-lg-5 col-md-5 col-sm-5">Type</div>
 							<div class="col-lg-7 col-md-7 col-sm-7">
-								<select class="form-control" ng-model="formObj.category" data-parsley-required>
-									<option value="" selected disabled class="hide">Please select</option>
-									<option selected value="staff">Admin</option>
-									<option  value="supervisor">Supervisor</option>
-									<option  value="surveyor">Surveyor</option>
-								</select>
+								<select ng-model="formObj.roles" ng-options="getRolesRecord.name for getRolesRecord in getRolesRecords" class="form-control"></select>
+								
+
 							</div>
 						</div>
 						<div class="row varspace">

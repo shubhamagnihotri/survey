@@ -74,7 +74,7 @@ switch($choice){
 		$where .= "AND district = '$district_id'";
 	}
 	$result = [];	
-	$qry = "SELECT CONCAT(first_name,' ', middle_name, ' ', last_name) as name, house_no, survey_status as status,id FROM survey_data WHERE user_id = '$id' $where";	
+	$qry = "SELECT CONCAT(first_name,' ', middle_name, ' ', last_name) as name,survey_remark, house_no, survey_status as status,id FROM survey_data WHERE user_id = '$id' $where";	
 	$res = mysql_query($qry);
 	$num_rows = mysql_num_rows($res);
 	if($num_rows > 0) {
@@ -115,7 +115,7 @@ switch($choice){
 	break;
 
 	case 'serveyDone':
-
+	//print_r($_REQUEST);die();
 	$_REQUEST['ownership_of_assets'] = json_encode($_REQUEST['ownership_of_assets']);
 	
 	$household_roster =$_REQUEST['household_roster'];
@@ -149,14 +149,48 @@ switch($choice){
 
 		
 	case 'getAllSurveyDetail':
+	$postdata = json_decode(file_get_contents('php://input'),true);
 	$id = $_REQUEST['survey_id'];
-	$status_type = $_REQUEST['type'];
+	$status_type = $_REQUEST['statusType'];
+	if($postdata['fiterBy']){
+		$fiterBy = $postdata['fiterBy'];
+	}
+	if($postdata['fiterValue']){
+		$fiterValue = $postdata['fiterValue'];
+	}
+
 	$today = $_REQUEST['today'];
 	$district = $_REQUEST['district'];
 	$where = '';
 	if($id){
 		$where = "WHERE id = '$id'"; 
 	}
+	
+	if($fiterBy){
+			
+		switch($fiterBy){
+			case 'bySurveyor':
+			!empty($where) ? $where .=" AND sd.user_id = $fiterValue":$where =" WHERE sd.user_id = $fiterValue";
+				
+			break;
+			case 'byStatus':
+			!empty($where) ? $where .=" AND sd.survey_status = $fiterValue":$where =" WHERE sd.survey_status = $fiterValue";
+				
+			break;
+
+			case 'byDistrict':
+			!empty($where) ? $where .=" AND sd.district = $fiterValue":$where =" WHERE sd.district = $fiterValue";
+			break;
+
+		}
+	}
+	if($postdata['from_date'] || $postdata['to_date']){
+		$from_date=$postdata['from_date'];
+		$to_date = $postdata['to_date'];
+		!empty($where) ? $where .=" AND DATE(sd.created_at) BETWEEN '$from_date' AND '$to_date'":$where =" WHERE DATE(sd.created_at) BETWEEN '$from_date' AND '$to_date'";
+	}
+	
+
 	if($status_type){
 		!empty($where) ? $where .=" AND survey_status = $status_type":$where =" WHERE survey_status = $status_type";
 		
@@ -169,8 +203,9 @@ switch($choice){
 	if($district){
 		!empty($where) ? $where .= " AND district = $district":$where="WHERE  district = $district";
 	}
-	 $query= "SELECT sd.mobile,sd.survey_status,sd.survey_remark,CONCAT(sd.first_name,' ',sd.middle_name,' ',sd.last_name) full_name,city.name district,DATE_FORMAT(sd.created_at,'%Y-%m-%d') AS created_at,roles.name postion_type,employee.full_name as employee_name FROM survey_data sd INNER JOIN city ON sd.district=city.id INNER JOIN employee ON sd.user_id = employee.emp_id INNER JOIN
+	$query= "SELECT sd.mobile,sd.survey_status,sd.survey_remark,CONCAT(sd.first_name,' ',sd.middle_name,' ',sd.last_name) full_name,city.name district,DATE_FORMAT(sd.created_at,'%Y-%m-%d') AS created_at,roles.name postion_type,employee.full_name as employee_name FROM survey_data sd INNER JOIN city ON sd.district=city.id INNER JOIN employee ON sd.user_id = employee.emp_id INNER JOIN
 	 roles ON roles.id = employee.role_id $where";
+	
 	$res = mysql_query($query);
 	$result = [];
 	if(mysql_num_rows($res) >0){
@@ -186,7 +221,86 @@ switch($choice){
 
 	break;
 
+	case 'getAllRoles':
+	$query = "SELECT id,name  FROM roles";
+	$resquery = mysql_query($query);
+	$result = [];
+	if(mysql_num_rows($resquery) > 0){
+		$i=0;
+		while($row= mysql_fetch_assoc($resquery)){
+			$result[$i] = $row; 
+			$i++;
+		}
+		echo json_encode(array('status'=>true,'success'=>$result));
 
+	}else{
+		echo json_encode(array('status'=>false,'error'=>'Data not exist'));
+	}
+
+	break;
+
+	case 'employeeDetails':
+	$type=$_REQUEST['type'];
+	$where = '';
+	if($type){
+		$where = "WHERE roles.id=$type AND em.status=1";
+	}
+	$query = "SELECT em.emp_id,em.full_name,em.phone,em.daily_task FROM employee em INNER JOIN roles ON em.role_id=roles.id $where";
+	$resquery= mysql_query($query);
+
+	if(mysql_num_rows($resquery) > 0){
+		$result=[];$i=0;
+		while($row=mysql_fetch_assoc($resquery)){
+			$result[$i] = $row;
+			$i++;
+		}
+		echo json_encode(array('status'=>true,'success'=>$result));
+	}else{
+		echo json_encode(array('status'=>false,'error'=>'Data not exist'));
+	}
+
+	break;
+
+
+
+	case 'getDataForGoogleMap':
+	$postdata = json_decode(file_get_contents('php://input'),true);
+	$where = '';
+	//$postdata= $_REQUEST;
+	$typeName=$postdata['typeName'];	
+	if($typeName){
+		$typevalue=$postdata['typevalue'];
+			
+		if($typeName == 'bySpecificdistrict'){
+		$select = "latitude,longnitude";	
+		empty($where) ? $where = "WHERE district= $typevalue":" AND district= $typevalue";
+		}else if($typeName == 'bySurveyor'){
+			$select = "	latitude,longnitude";	
+			empty($where) ? $where = "WHERE user_id= $typevalue":" AND user_id= $typevalue";
+		}else if($typeName == 'byAlldistrict' ){
+			$select = "DISTINCT(district),district_lat,district_long";
+		}
+	}
+
+	$query = " SELECT $select FROM survey_data $where";
+	$run_query = mysql_query($query);
+
+	if(mysql_num_rows($run_query) > 0 ){
+		$i=0;
+		$result= [];
+		while($row=mysql_fetch_assoc($run_query)){
+			$result[$i] = $row; 
+			$i++;
+		}
+		echo json_encode(array('status'=>true,'success'=>$result));
+	}else{
+		echo json_encode(array('status'=>false,'error'=>'Data Not Exist'));
+	}
+	
+	
+
+
+	break;
 	$dbObj->disconnect();
 
 }

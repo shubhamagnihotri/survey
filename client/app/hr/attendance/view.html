@@ -1,7 +1,47 @@
 <div class="row viewBackground" ng-init="viewEmployee();">
 	<div class="panel-body">
 		<div class="row varspace">
-			<div class="col-lg-3 col-md-3 col-sm-3">
+			<div class="col-md-12">
+			<div class=" alert alert-success" ng-if="filteredMapData.length > 0">
+				<p ng-if="filterGoogleItem && filterGoogleItem=='byAlldistrict'">
+					Maps shows all running survey district
+				</p>
+				<p ng-if="filterGoogleItem && filterGoogleItem=='bySpecificdistrict'">
+					Map Shows By Specific District 
+				</p>
+				<p ng-if="filterGoogleItem && filterGoogleItem=='bySurveyor'">
+					Map Shows By Specific Person
+				</p>
+			</div>
+			<div class=" alert alert-danger" ng-if="filteredMapData.length <=0 ">
+				Data Does Not Exist	
+			</div>
+			</div>
+			<div class="col-sm-3" ng-init="surveyFilter.value=='1'">
+
+				<select class="form-control" ng-model="filterGoogleItem" ng-change="filterGoogleMap()">
+	              <option ng-repeat="mapFilter in mapFilters" value="{{mapFilter.value}}">{{ mapFilter.option }}</option>
+	            </select>
+			</div>
+
+			<div class="col-sm-3" ng-if="filterGoogleItem && filterGoogleItem=='bySpecificdistrict'">
+
+				<select class="form-control" ng-model="filterHttpData.typevalue" ng-change="getDataForMap()">
+	              <option ng-repeat="updateGoogleMapFilter in updateGoogleMapFilters" value="{{updateGoogleMapFilter.id}}" >{{ updateGoogleMapFilter.name }}</option>
+	            </select>
+			</div>
+			<div class="col-sm-3" ng-if="filterGoogleItem && filterGoogleItem=='bySurveyor'">
+
+				<select class="form-control" ng-model="filterHttpData.typevalue" ng-change="getDataForMap()">
+	              <option ng-repeat="updateGoogleMapFilter in updateGoogleMapFilters" value="{{updateGoogleMapFilter.emp_id}}">{{ updateGoogleMapFilter.full_name }}</option>
+	            </select>
+			</div>
+
+			<div class="col-lg-2 col-md-2 col-sm-2">
+					<button type="submit"  class="btn btn-danger pull-right" ng-click="attendance.showResult();">Search</button>
+			</div>
+
+			<!-- <div class="col-lg-3 col-md-3 col-sm-3">
 				<label>Filter </label>
 			</div>
 			<div class="col-lg-3 col-md-3 col-sm-3">
@@ -15,9 +55,9 @@
 					<input type="radio" id="Employee" class="form-control" name="searchType" i-check ng-model="filter.searchType" value="byEmp" ng-change="refreshData();" />
 					<label for="Employee">By Employee</label>
 				</span>
-			</div>
+			</div> -->
 		</div>
-		<form method="post" class="searchAttendanceForm" role="form" data-parsley-validate>
+	<!-- 	<form method="post" class="searchAttendanceForm" role="form" data-parsley-validate>
 			<div class="row varspace">
 				<div class="col-lg-3 col-md-3 col-sm-3" >
 
@@ -39,9 +79,9 @@
 					<button type="submit"  class="btn btn-primary pull-right" ng-click="attendance.showResult();">Search</button>
 				</div>
 			</div>
-		</form>
+		</form> -->
 		<div class="table-responsive tableDivHeight">
-			<div id="map" style="width: 500px; height: 400px;"></div>
+			<div id="map" style="width:100%; height: 400px;"></div>
 
 		</div>
 	</div>

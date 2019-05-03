@@ -13,7 +13,7 @@ switch($choice){
 	$preStr = null;
 	$empId = isset($postdata['emp_id'])==true ? $postdata['emp_id'] : null;
 	if(!$empId){
-		$dbObj->insertRow('employee', $postdata, ['iQTest']);
+		$dbObj->insertRow('employee', $postdata, ['iQTest','roles','skills','']);
 	} else {
 		foreach($postdata as $key=>$val){
 			$notallowded = array('id', 'ngDialogId', 'department', 'same_address', 'fdg', 'iQTest');

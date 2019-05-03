@@ -46,6 +46,8 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
 	$scope.attendanceDevice = ATTENDANCE_DEVICE;
 	$scope.uploadPATH = 'uploads/';
 	$scope.userDetail = authService.getUserDetail();
+	$scope.updateByFilterValues = [];
+	$scope.filterHttpData = {};
 	$scope.skillSet = [
 		{value: 'Metallizing', name: 'Metallizing', process: '4'},
 		{value: 'Paintline', name: 'Paintline', process: '4'},
@@ -74,19 +76,110 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
 		{value: 'A', name: 'A'},
 		{value: 'B', name: 'B'},
 	];
+	$scope.surveyFilterBy = [
+		{id:1,option:'By District',value:'byDistrict'},
+		// {id:2,option:'By Role Type',value:'byRole'},
+		{id:2,option:'By surveyor name',value:'bySurveyor'},
+		{id:3,option:'By status',value:'byStatus'},
+		{id:4,option:'By Only Date',value:'byDate'}
+		
+	];
+	$scope.mapFilters = [
+		{ id:1,option:'By All District',value:'byAlldistrict'},
+		{ id:2,option:'By Specific District',value:'bySpecificdistrict'},
+		{ id:3,option:'By Surveyor',value:'bySurveyor'}
+	];
 	$scope.chartLength = 0;
 	$scope.options = {
 		type: 'column'
 	}
-
+    
 	function init() {
-    // $scope.companyList = getRecord.viewCompany();
-    // $scope.processList = getRecord.viewProcess();
-    // $scope.colorList = getRecord.viewColor();
-	// $scope.roleList = getRecord.viewRole();
+	$scope.getAllDistrict = getRecord.getAllDistrict({parent_code:1,type:2});
 	$scope.surveyRecord = getRecord.surveyRecord();
-		console.log($scope.surveyRecord);
+	$scope.surveyorRecord = getRecord.surveyorRecord();	
+	$scope.filterGoogleItem = 'byAlldistrict';
+	$scope.filterHttpData.typeName= 'byAlldistrict';
+	$scope.filteredMapData = getRecord.getFilteredMapData($scope.filterHttpData);
+	$scope.getRolesRecords = getRecord.getRolesRecord();
+	 console.log($scope.getRolesRecords);
+
   	}
+
+  	$scope.update = function(){
+  		
+  		$scope.filterHttpData.fiterBy=$scope.surveyFilterItem;
+  		// $scope.filterHttpData.push({fiterBy:$scope.surveyFilterItem});
+
+  		if($scope.surveyFilterItem == 'byDistrict'){
+  		$scope.updateByFilterValues=$scope.getAllDistrict;
+
+  		}else if($scope.surveyFilterItem == 'bySurveyor'){  
+
+  			$scope.updateByFilterValues = $scope.surveyorRecord;
+
+  		}else if($scope.surveyFilterItem == 'byStatus'){
+  			$scope.updateByFilterValues =$scope.surveyStatus;
+  		}
+  	}
+
+  	$scope.filterGoogleMap = function(){
+  		// console.log($scope.getAllDistrict);
+  		// console.log($scope.surveyorRecord);
+  		$scope.filterHttpData.typeName = $scope.filterGoogleItem;
+  		if($scope.filterGoogleItem == 'byAlldistrict'){
+			//$scope.filterHttpData.typeName = $scope.filterGoogleItem;		
+  			
+  			//$scope.updateGoogleMapFilters=$scope.getAllDistrict;
+  			$scope.filteredMapData = getRecord.getFilteredMapData($scope.filterHttpData); 
+  		
+  		}
+  		if($scope.filterGoogleItem == 'bySpecificdistrict'){
+  			console.log($scope.filterHttpData);
+
+  			$scope.filterHttpData.typeName = $scope.filterGoogleItem;
+  			$scope.updateGoogleMapFilters=$scope.getAllDistrict;
+  			//console.log($scope.updateGoogleMapFilters);
+  		}
+  		if($scope.filterGoogleItem == 'bySurveyor'){
+  			
+  			$scope.filterHttpData.typeName = $scope.filterGoogleItem;
+  			$scope.updateGoogleMapFilters=$scope.surveyorRecord;
+  			console.log($scope.filterHttpData);
+  		}
+  	}
+
+  	// $scope.filterGoogleMapByValue = function(){
+
+  	// }
+
+  	$scope.getDataForMap = function(){
+  		console.log($scope.filterHttpData);
+		$scope.filteredMapData = getRecord.getFilteredMapData($scope.filterHttpData); 		
+  	
+  	}
+
+
+
+
+  	// $scope.refine = function(refineType){
+  	// 	alert('asdasd');
+  	// 	if(refineType == 'surveyRecordRefine'){
+  	// 		alert('asdasd');
+  	// 		$scope.updateByFilterValues=getRecord.surveyRecord({});
+  	// 	}
+  	// }
+
+  	$scope.filterSurveyData = function (){
+  		console.log('adhajdhjhsda');
+  			
+  		if($scope.updateByFilterItem){
+  			$scope.filterHttpData.fiterValue = $scope.updateByFilterItem; 
+  		}
+  		$scope.surveyRecord = getRecord.surveyRecord($scope.filterHttpData);
+  		console.log($scope.filterHttpData);
+  	}
+
 
 	$scope.printDivElem = function(elem){
 		$("#"+elem).printThis({
@@ -343,9 +436,10 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
 			$("#suplimentry-"+index).show();
 		},
 		save: function(){
-			var isValid = $(".addEmployeeForm").parsley().validate();
-			if(!isValid) return false;
+			// var isValid = $(".addEmployeeForm").parsley().validate();
+			// if(!isValid) return false;
 			$scope.formObj.skills = angular.toJson($scope.skillList);
+			console.log($scope.formObj);
 			$http.post('server/controller/hr.php?choice=addEmployee', $scope.formObj).success(function(result){
 				if(result.status){
 					$scope.skillList = [];
@@ -817,6 +911,11 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
 		showResult: function(){
 			//for map
 
+			if($scope.filteredMapData.length <=0 ){
+
+				return false;
+			}
+
 			var options = {
                     zoom: 5,
                     center: new google.maps.LatLng(34.083656, 74.797371), // centered US
@@ -828,31 +927,65 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
                 var map = new google.maps.Map(document.getElementById('map'), options);
 
                 // NY and CA sample Lat / Lng
-                var southWest = new google.maps.LatLng(45.744656, 70.005966);
-                var northEast = new google.maps.LatLng(30.052234, 90.243685);
-                var lngSpan = northEast.lng() - southWest.lng();
-                var latSpan = northEast.lat() - southWest.lat();
+                // var southWest = new google.maps.LatLng(45.744656, 70.005966);
+                // var northEast = new google.maps.LatLng(30.052234, 90.243685);
+                // var lngSpan = northEast.lng() - southWest.lng();
+                // var latSpan = northEast.lat() - southWest.lat();
 
                 // set multiple marker
-                for (var i = 0; i < 250; i++) {
-                    // init markers
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(southWest.lat() + latSpan * Math.random(), southWest.lng() + lngSpan * Math.random()),
-                        map: map,
-                        title: 'Click Me ' + i
-                    });
-
-                    // process multiple info windows
-                    (function(marker, i) {
+                var i=0;
+                console.log('checkData');
+                console.log($scope.filteredMapData);
+                $scope.filteredMapData.forEach(function(data){
+                	if($scope.filterGoogleItem=='bySpecificdistrict' || $scope.filterGoogleItem=='bySurveyor'){
+                		
+                		var marker = new google.maps.Marker({
+	                        position: new google.maps.LatLng(data.latitude, data.longnitude),
+	                        map: map,
+	                        title: 'Click Me ' + i
+                    	});
+                	}else{
+                		var marker = new google.maps.Marker({
+	                        position: new google.maps.LatLng(data.district_lat,data.district_long),
+	                        map: map,
+	                        title: 'Click Me ' + i
+                    	});
+                	}
+                	(function(marker, i) {
                         // add click event
                         google.maps.event.addListener(marker, 'click', function() {
-                            infowindow = new google.maps.InfoWindow({
+                             infowindow = new google.maps.InfoWindow({
                                 content: 'Hello, World!!'
-                            });
+                        	});
+                       
                             infowindow.open(map, marker);
                         });
                     })(marker, i);
-                };return false;
+
+                	i++;
+                	
+
+                });return false;
+
+                // for (var i = 0; i < 250; i++) {
+                //     // init markers
+                //     var marker = new google.maps.Marker({
+                //         position: new google.maps.LatLng(southWest.lat() + latSpan * Math.random(), southWest.lng() + lngSpan * Math.random()),
+                //         map: map,
+                //         title: 'Click Me ' + i
+                //     });
+
+                //     // process multiple info windows
+                //     (function(marker, i) {
+                //         // add click event
+                //         google.maps.event.addListener(marker, 'click', function() {
+                //             infowindow = new google.maps.InfoWindow({
+                //                 content: 'Hello, World!!'
+                //             });
+                //             infowindow.open(map, marker);
+                //         });
+                //     })(marker, i);
+                // };return false;
 			$scope.filterResult = [];
 			var isValid = $(".searchAttendanceForm").parsley().validate();
 			if(!isValid) return false;

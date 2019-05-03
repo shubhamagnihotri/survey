@@ -1,6 +1,6 @@
 <div class="row viewBackground" ng-init="viewEmployee();">
 	<div class="panel-body">
-		<div class="row varspace">
+		<!-- <div class="row varspace">
 			<div class="col-lg-3 col-md-3 col-sm-3">
 				<label>Filter </label>
 			</div>
@@ -16,8 +16,8 @@
 					<label for="Employee">By Employee</label>
 				</span>
 			</div>
-		</div>
-		<form method="post" class="searchAttendanceForm" role="form" data-parsley-validate>
+		</div> -->
+<!-- 		<form method="post" class="searchAttendanceForm" role="form" data-parsley-validate>
 			<div class="row varspace">
 				<div class="col-lg-3 col-md-3 col-sm-3" >
 
@@ -47,8 +47,43 @@
 					</button>
 				</div>
 			</div>
-		</form>
+		</form> -->
+		<div class="row varspace">
+			<div class="col-sm-3">
 
+				<select class="form-control" ng-model="surveyFilterItem" ng-change="update()">
+	              <option ng-repeat="surveyFilter in surveyFilterBy" value="{{surveyFilter.value}}">{{ surveyFilter.option }}</option>
+	            </select>
+			</div>
+			<div class="col-sm-3" ng-if="surveyFilterItem && surveyFilterItem=='byDistrict'">
+				
+				<select class="form-control" ng-model="filterHttpData.fiterValue">
+	              <option ng-repeat="updateByFilter in updateByFilterValues" value="{{updateByFilter.id}}">{{ updateByFilter.name }}</option>
+	            </select>	
+			</div>
+			<div class="col-sm-3" ng-if="surveyFilterItem && surveyFilterItem=='bySurveyor'">
+				
+				<select class="form-control" ng-model="filterHttpData.fiterValue">
+	              <option ng-repeat="updateByFilter in updateByFilterValues" value="{{updateByFilter.emp_id}}">{{ updateByFilter.full_name }}</option>
+	            </select>	
+			</div>
+			<div class="col-sm-2" ng-if="surveyFilterItem && surveyFilterItem=='byStatus'">
+				
+				<select class="form-control" ng-model="filterHttpData.fiterValue">
+	              <option ng-repeat="updateByFilter in updateByFilterValues" value="{{updateByFilter.value}}">{{ updateByFilter.statusName }}</option>
+	            </select>	
+			</div>
+			<div class="col-sm-2" ng-if="surveyFilterItem && surveyFilterItem=='byDistrict' || surveyFilterItem=='byRole' || surveyFilterItem=='bySurveyor' || surveyFilterItem=='byDate'">
+				<input type="text" ng-model="filterHttpData.from_date" placeholder="From Date" class="form-control">
+			</div>
+			<div class="col-sm-2" ng-if="surveyFilterItem && surveyFilterItem=='byDistrict' || surveyFilterItem=='byRole' || surveyFilterItem=='bySurveyor' || surveyFilterItem=='byDate'">
+				<input type="text" ng-model="filterHttpData.to_date" placeholder="To Date" class="form-control">
+			</div>
+			<div class="col-sm-2"  ng-if="surveyFilterItem">
+				<button type="submit"  class="btn btn-danger pull-right" ng-click="filterSurveyData()">Search</button>
+				
+			</div>
+		</div>
 		<div class="table-responsive tableDivHeight">
 			<table id="attendanceTable" class="table table-striped table-bordered table-condensed table-theme">
 				<thead>
@@ -56,26 +91,50 @@
 						<th>Name</th>
 						<th>District</th>
 						<th>Mobile</th>
-						<th>Status</th>
-						<th>Remark</th>
+						
+						
 						<th>Created Date</th>
-						<th>Created By</th>
+						<th>Employee</th>
 						<th>Role</th>
+						<th>Remark</th>
+						<th>Status</th>
+					</tr>
+					<tr>
+						<td colspan="8">
+							<input type="text" ng-model="serachSurveyData" placeholder="search survey data" class="form-control">
+						</td>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-if="surveyRecord.length" ng-repeat="surveyRec in surveyRecord">
-						<td class="word-wrap">{{surveyRec.full_name}}</td>
+					<tr ng-if="surveyRecord.length" ng-repeat="surveyRec in surveyRecord | filter:serachSurveyData ">
+						<td class="word-wrap">{{surveyRec.full_name |uppercase }}</td>
 						<td class="word-wrap">{{surveyRec.district}}</td>
 						<td>{{surveyRec.mobile}}</td>
-						<td>{{surveyRec.survey_status}}</td>
-						<td>{{surveyRec.survey_remark}}</td>
+						
+						
 						<td>{{surveyRec.created_at}}</td>
 						<td>{{surveyRec.employee_name}}</td>
 						<td>{{surveyRec.postion_type}}</td>
+						<td>
+						<span class="badge badge-info">{{surveyRec.survey_remark}}</span>		
+						</td>
+						<td ng-if="surveyRec.survey_status =='1' "> 
+							
+							<span class="badge badge-warning"><b>Pending</b></span>
+						</td>
+						<td ng-if="surveyRec.survey_status =='2' "> 
+							
+							<span class="badge badge-success"><b>Approve</b></span>
+						</td>
+						<td ng-if="surveyRec.survey_status =='3' ">
+						<span class="badge badge-danger"><b>Rejected</b></span> 
+							
+						</td>
 					</tr>
 					<tr ng-if="!surveyRecord.length">
-						<td colspan="8">No Records Found</td>
+						<td colspan="8" style="text-align: center;">
+							<b>No Records Found</b>
+						</td>
 					</tr>
 				</tbody>
 			</table>

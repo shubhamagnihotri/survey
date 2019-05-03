@@ -95,8 +95,10 @@ case 'appLogin':
 
 	case 'getDistict':
 	$postdata = $_POST;
-	//$state_id = $postdata['state_id'];
 
+	//$state_id = $postdata['state_id'];
+	$postdata = json_decode(file_get_contents('php://input'),true);
+	
 	$parent_code = $postdata['parent_code'];
 	if(isset($postdata['type'])){
 		$type = $postdata['type'];	

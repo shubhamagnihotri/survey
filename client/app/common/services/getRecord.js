@@ -12,8 +12,11 @@ aadinathUI.service('getRecord', function ($http) {
     var roleList = [];
 	var empList = [];
 	var batchList = [];
-    var allSurveyRecord= []
-
+    var allSurveyRecord= [];
+    var surveyorRecordData = [];
+    var getAllDistrictData =[];
+    var googleMapRecordData = [];
+    var getRolesData = []; 
 	this.viewJWO = function(obj){
 		jwoNumbers = [];
         $http.post('server/controller/activity.php?choice=viewJWO', obj).success(function (data) {
@@ -125,6 +128,7 @@ aadinathUI.service('getRecord', function ($http) {
 
 	this.viewEmployee = function ($filter= '') {
         empList = [];
+        console.log($filter);
         $http.post('server/controller/hr.php?choice=viewEmployee', $filter).success(function (data) {
             let tempArr = data.success;
             if(tempArr.length){
@@ -165,9 +169,24 @@ aadinathUI.service('getRecord', function ($http) {
         });
     };
 
-    this.surveyRecord = function(){
+    this.getAllDistrict = function(filter = {}){
+        getAllDistrictData = [];
+         $http.post('server/controller/activity.php?choice=getDistict',filter).success(function(data){
+            if(data.success){
+                let allDistrictArr = data.success;
+                allDistrictArr.forEach(function(batch){
+                    getAllDistrictData.push(batch);
+                });
+            }
+           
+         });
+         return  getAllDistrictData;
+    }
+
+    this.surveyRecord = function(filterdata = {}){
        allSurveyRecord = [];
-         $http.post('server/controller/surveyor.php?choice=getAllSurveyDetail').success(function (data) {
+     
+        $http.post('server/controller/surveyor.php?choice=getAllSurveyDetail',filterdata).success(function (data) {
           
             if(data.success){
                 let surveyArr = data.success;
@@ -175,8 +194,52 @@ aadinathUI.service('getRecord', function ($http) {
                     allSurveyRecord.push(batch);
                 });
             }
+
         });
         return  allSurveyRecord;
+    }
+
+    this.surveyorRecord = function(){
+        surveyorRecordData = [];
+        $http.post('server/controller/surveyor.php?choice=employeeDetails',{type:19}).success(function (data){
+            if(data.success){
+                let surveyorRecordArr =  data.success;
+
+                surveyorRecordArr.forEach(function(itemTerm){
+                    surveyorRecordData.push(itemTerm);
+                });
+            };
+        });
+
+        return surveyorRecordData;
+    };
+
+
+    this.getFilteredMapData = function(filter){
+        googleMapRecordData = [];
+        $http.post('server/controller/surveyor.php?choice=getDataForGoogleMap',filter).success(function(data){
+            if(data.success){
+                let googlMapRecordArr = data.success;
+                googlMapRecordArr.forEach(function(itemTerm){
+                    googleMapRecordData.push(itemTerm);
+
+                });
+            }
+        });
+        return googleMapRecordData;
+    }
+
+    this.getRolesRecord = function(){
+        getRolesData = [];
+        $http.get('server/controller/surveyor.php?choice=getAllRoles').success(function(data){
+            if(data.success){
+                let getRolesDataArr = data.success;
+                getRolesDataArr.forEach(function(itemTerm){
+                    getRolesData.push(itemTerm);
+                });
+            }
+        });
+        return getRolesData;
     }
 
  
