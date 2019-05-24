@@ -10,6 +10,7 @@ switch($choice){
 
 	case 'login':
 	$postdata = json_decode(file_get_contents('php://input'),true);
+	$_REQUEST['name'];
 
 	if(1){
 		//if($dbObj->checkCurrentIP()){
@@ -25,12 +26,15 @@ switch($choice){
 			 $loginQuery = "SELECT emp_id, full_name, role_id, email FROM employee emp WHERE username='$name' AND password='$password' AND status=1";
 			$resLoginQuery = mysql_query($loginQuery);
 			if(mysql_num_rows($resLoginQuery) > 0) {
+
 				$result=mysql_fetch_assoc($resLoginQuery);
 				$emp_id=$result['emp_id'];
 				$updateQry = "UPDATE employee set last_login_date=NOW() where emp_id='$emp_id'";
 				$res = mysql_query($updateQry);
 				echo json_encode(array('status'=>true, 'success'=>$result));
+			
 			}else {
+
 				echo json_encode(array('status'=>false, 'error'=>'Username or Password is incorrect.'));
 			}
 		}

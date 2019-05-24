@@ -23,17 +23,18 @@ angular.module('aadinathUI').controller('loginCtrl', function($scope, $window, $
 			$('.error_msg').text('');
 
 			$scope.userDetail = result;
-			if ($scope.userDetail.roleId == 1) $state.go('main.admin');
-			else if ($scope.userDetail.roleId == 2) $state.go('main.marketing');
-			else if ($scope.userDetail.roleId == 3) $state.go('main.gateEntry');
-			else if ($scope.userDetail.roleId == 4) $state.go('main.store');
-			else if ($scope.userDetail.roleId == 5) $state.go('main.shiftEngineer');
-			else if ($scope.userDetail.roleId == 6) $state.go('main.coordinator');
-			else if ($scope.userDetail.roleId == 7) $state.go('main.maintenance');
-			else if ($scope.userDetail.roleId == 8) $state.go('main.productionManager');
-			else if ($scope.userDetail.roleId == 9) $state.go('main.mis');
-			else if ($scope.userDetail.roleId == 18) $state.go('main.crm');
-			else if ($scope.userDetail.roleId == 10 || $scope.userDetail.roleId == 15) $state.go('main.hr');
+			//if ($scope.userDetail.roleId == 1) $state.go('main.admin');
+			if ($scope.userDetail.roleId == 1) $state.go('main.hr');
+			// else if ($scope.userDetail.roleId == 2) $state.go('main.marketing');
+			// else if ($scope.userDetail.roleId == 3) $state.go('main.gateEntry');
+			// else if ($scope.userDetail.roleId == 4) $state.go('main.store');
+			// else if ($scope.userDetail.roleId == 5) $state.go('main.shiftEngineer');
+			// else if ($scope.userDetail.roleId == 6) $state.go('main.coordinator');
+			// else if ($scope.userDetail.roleId == 7) $state.go('main.maintenance');
+			// else if ($scope.userDetail.roleId == 8) $state.go('main.productionManager');
+			// else if ($scope.userDetail.roleId == 9) $state.go('main.mis');
+			// else if ($scope.userDetail.roleId == 18) $state.go('main.crm');
+			else if ($scope.userDetail.roleId == 2) $state.go('main.hr');
 		}, function (error) {
 			$('.error_msg').text(error);
 		});

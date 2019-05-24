@@ -41,6 +41,52 @@ switch($choice){
 	}else{
 		echo json_encode(array('status'=>false,'error'=>'not updated '));
 	}
+	break;
+
+	case 'addEmployeeData':
+
+	$employeeData = json_encode($_REQUEST);
+	$insertData = $dbObj->insertRow('employee',$employeeData,['choice']);
+	if($insertData){
+		echo json_encode(array('status'=>true, 'success'=>'Record added.'));
+	}else{
+			echo json_encode(array('status'=>false, 'success'=>'Record not inserted'));
+	}
+	break;
+
+	case 'getEmployeeData':
+
+	$empId= $_REQUEST['emp_id'];
+	$query = "SELECT * FROM employee WHERE emp_id= '$empId'";
+	$run_query = mysql_query($query);
+	if(mysql_num_rows($run_query) > 0){
+		$i = 0;
+		while($row = mysql_fetch_assoc($run_query)){
+			$result[$i] = $row;
+			$i++;
+		}
+		echo json_encode(array('status'=>true, 'success'=>$result));
+	}else{
+		echo json_encode(array('status'=>false,'error'=>'not exist '));
+	}
+
+	break;
+
+	case 'updateEmployeeData':
+
+	$employeeData = json_encode($_REQUEST);
+	$empId = $_REQUEST['emp_id'];
+	$employeeData['id']= $emp_id;  
+	$insertData = $dbObj->updateRow('employee',$employeeData,['choice','	emp_id','id']);
+	if($insertData){
+
+		echo json_encode(array('status'=>true, 'success'=>'Record added.'));
+	}else{
+			echo json_encode(array('status'=>false, 'success'=>'Record not inserted'));
+	}
+
+	break;
+
 
 }
 

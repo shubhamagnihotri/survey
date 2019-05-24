@@ -20,7 +20,7 @@
 			</li>
 		</ul>
 	</li>
-	<li ng-if="userDetail.roleId == 10">
+	<li ng-if="userDetail.roleId == 1 || userDetail.roleId == 2">
 		<a ui-sref="main.hr.attendance({pageType: 'view'})">
 			<i class="fa fa-reorder"></i>
 			<span class="title">Survey </span>
@@ -39,7 +39,7 @@
 			</li>
 		</ul>
 	</li>
-	<li>
+	<!-- <li>
 		<a ui-sref="main.hr.salaryMaster({pageType: 'view'})">
 			<i class="fa fa-money"></i>
 			<span class="title">Reports </span>
@@ -52,5 +52,5 @@
 				</a>
 			</li>
 		</ul>
-	</li>
+	</li> -->
 </ul>
