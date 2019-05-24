@@ -2,9 +2,9 @@
 
 angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $http, $state, ngDialog, authService, toaster, $timeout, getRecord, EMP_DOCUMENT_TYPE, ATTENDANCE_DEVICE){
 
-	$scope.filter = {
-		searchType: 'byMonth'
-	};
+	// $scope.filter = {
+	// 	searchType: 'byMonth'
+	// };
 	$scope.dashboard = {};
 	$scope.viewEmployee = function() {
 		$scope.filter.roleId = $scope.userDetail.roleId;

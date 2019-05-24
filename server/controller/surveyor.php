@@ -13,30 +13,43 @@ switch($choice){
 	$id = $_REQUEST['userId'];
 	$result = [];
 	$totalsurveyQuery = "SELECT count(id) AS total_survey  from  survey_data WHERE user_id = '$id'";
-	$result['totalSurvey'] =  mysql_fetch_array(mysql_query($totalsurveyQuery))['total_survey'];
+	$result['allTotalSurvey'] =  mysql_fetch_array(mysql_query($totalsurveyQuery))['total_survey'];
 
 	$coverdistictQuery = "SELECT count(DISTINCT(`district`)) AS cover_distict FROM survey_data WHERE user_id = '$id'";
-	$result['totalDistCovered'] =  mysql_fetch_array(mysql_query($coverdistictQuery))['cover_distict'];
+	$result['allTotalDistCovered'] =  mysql_fetch_array(mysql_query($coverdistictQuery))['cover_distict'];
 	
 	
 	$pendingsurveyQuery = "SELECT count(id) as pending_survey from survey_data WHERE survey_status='1' AND user_id = '$id'";
-	$result['pendingSurvey'] =  mysql_fetch_array(mysql_query($pendingsurveyQuery))['pending_survey'];
+	$result['allPendingSurvey'] =  mysql_fetch_array(mysql_query($pendingsurveyQuery))['pending_survey'];
 
 
 	$approvesurveyQuery = "SELECT count(survey_status) as approve_survey from survey_data WHERE survey_status='2' AND user_id = '$id'";
-	$result['approvedSurvey'] =  mysql_fetch_array(mysql_query($approvesurveyQuery))['approve_survey'];
+	$result['allApprovedSurvey'] =  mysql_fetch_array(mysql_query($approvesurveyQuery))['approve_survey'];
 
 	$rejectedsurveyQuery = "SELECT count(survey_status) as rejected_survey from survey_data WHERE survey_status='3' AND user_id = '$id'";
-	$result['rejectedSurvey'] =  mysql_fetch_array(mysql_query($rejectedsurveyQuery))['rejected_survey'];
+	$result['allRejectedSurvey'] =  mysql_fetch_array(mysql_query($rejectedsurveyQuery))['rejected_survey'];
 	
 	$today = date('Y-m-d');
-	$qry = "SELECT count(id) AS today_survey  from  survey_data WHERE DATE(created_at) = '$today' AND user_id = '$id'";
-	$result['todayCovered'] =  mysql_fetch_array(mysql_query($qry))['today_survey'];
-	
-	$qry = "SELECT daily_task from  employee WHERE emp_id = '$id'";
-	$daily_task =  mysql_fetch_array(mysql_query($qry))['daily_task'];
-	$result['todayPending'] = $daily_task - $result['todayCovered'];
-	
+
+	$todayAssignTask = "SELECT daily_task FROM employee WHERE  DATE(daily_task_assign_date) = '$today' AND 	emp_id = '$id' ";
+	$result['todayTotalAssignTask'] =  mysql_fetch_array(mysql_query($todayAssignTask))['daily_task'];
+
+
+	$todayTotalComplteqry = "SELECT count(id) AS today_survey  from  survey_data WHERE DATE(created_at) = '$today' AND user_id = '$id'";
+	$result['todayTotalCompletedTask'] =  mysql_fetch_array(mysql_query($todayTotalComplteqry))['today_survey'];
+	if($result['todayTotalAssignTask'] > 0 ){
+	$result['todayTotalPendingTask'] = strval($result['todayTotalAssignTask'] - $result['todayTotalCompletedTask']);	
+	}else{
+		$result['todayTotalPendingTask '] = '0';
+	}
+
+	$todayTotalApproveStatusTaskQury = "SELECT count(id) as todayApproveStatus from survey_data WHERE survey_status='2' AND user_id = '$id'";
+	$result['todayTotalApproveStatusTask'] =  mysql_fetch_array(mysql_query($todayTotalApproveStatusTaskQury))['todayApproveStatus'];
+	$todayTotalPendingStatusTaskQury = "SELECT count(id) as todayPendingStatus from survey_data WHERE survey_status='1' AND user_id = '$id'";
+	$result['todayTotalPendingStatusTask'] =  mysql_fetch_array(mysql_query($todayTotalPendingStatusTaskQury))['todayPendingStatus'];
+	$todayTotalRejectedStatusTaskQury = "SELECT count(id) as todayRejectedStatus from survey_data WHERE survey_status='3' AND user_id = '$id'";
+	$result['todayTotalRejectedStatusTask'] =  mysql_fetch_array(mysql_query($todayTotalRejectedStatusTaskQury))['todayRejectedStatus'];
+
 	echo json_encode(array('status'=>true, 'success'=>$result));
 	
 	break;
@@ -132,12 +145,21 @@ switch($choice){
 	if($insertSurveyDetail){
 		if($_REQUEST['household_roster']){
 			$i=0;
-			while($_REQUEST['household_roster'][$i]){
-			
-			$_REQUEST['household_roster'][$i]['survey_detail_id'] = $insertSurveyDetail;
-			$insertHouseHold = $dbObj->insertRow('survey_detail',$_REQUEST['household_roster'][$i],[]);
-			$i++;
+			$household_roster = ($_REQUEST['household_roster']);
+			echo count($household_roster);
+			 echo json_encode($household_roster);
+			for($i=0; $i < count($household_roster); $i++ ){
+				$_REQUEST['household_roster'][$i]['survey_detail_id'] = $insertSurveyDetail;
+				$insertHouseHold = $dbObj->insertRow('household_roster',$_REQUEST['household_roster'][$i],[]);	
 			}
+			// while($row=$_REQUEST['household_roster'][$i]){
+
+			// // json_encode(array('sadasd'=>$insertSurveyDetail));						
+			// $_REQUEST['household_roster'][$i]['survey_detail_id'] = $insertSurveyDetail;
+			// //$insertHouseHold = $dbObj->insertRow('household_roster',$_REQUEST['household_roster'][$i],[]);
+			// $i++;
+			// };
+			
 		}	
 		echo json_encode(array('status'=>true, 'success'=>'Record added.'));
 	}else{
@@ -296,7 +318,24 @@ switch($choice){
 	}else{
 		echo json_encode(array('status'=>false,'error'=>'Data Not Exist'));
 	}
-	
+	break;
+
+
+	case 'getSurveyDetail':
+	$survey_data_id = $_REQUEST['survey_data_id'];
+	$getSurvetDetailQuery = "SELECT * FROM survey_data WHERE id='$survey_data_id'";
+	$run_query = mysql_query($getSurvetDetailQuery);
+	if(mysql_num_rows($run_query) > 0 ){
+		$i=0;
+		$result= [];
+		while($row=mysql_fetch_assoc($run_query)){
+			$result[$i] = $row; 
+			$i++;
+		}
+		echo json_encode(array('status'=>true,'success'=>$result));
+	}else{
+		echo json_encode(array('status'=>false,'error'=>'Data Not Exist'));
+	}
 	
 
 
