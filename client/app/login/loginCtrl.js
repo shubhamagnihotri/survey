@@ -24,7 +24,7 @@ angular.module('aadinathUI').controller('loginCtrl', function($scope, $window, $
 
 			$scope.userDetail = result;
 			//if ($scope.userDetail.roleId == 1) $state.go('main.admin');
-			if ($scope.userDetail.roleId == 1) $state.go('main.hr');
+			if ($scope.userDetail.roleId == 1) $state.go('main.admin');
 			// else if ($scope.userDetail.roleId == 2) $state.go('main.marketing');
 			// else if ($scope.userDetail.roleId == 3) $state.go('main.gateEntry');
 			// else if ($scope.userDetail.roleId == 4) $state.go('main.store');
@@ -34,13 +34,13 @@ angular.module('aadinathUI').controller('loginCtrl', function($scope, $window, $
 			// else if ($scope.userDetail.roleId == 8) $state.go('main.productionManager');
 			// else if ($scope.userDetail.roleId == 9) $state.go('main.mis');
 			// else if ($scope.userDetail.roleId == 18) $state.go('main.crm');
-			else if ($scope.userDetail.roleId == 2) $state.go('main.hr');
+			else if ($scope.userDetail.roleId == 2) $state.go('main.admin');
 		}, function (error) {
 			$('.error_msg').text(error);
 		});
 
-		
-		
+
+
     }
 
 });

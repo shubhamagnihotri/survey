@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $http, $state, ngDialog, authService, toaster, $timeout, getRecord, EMP_DOCUMENT_TYPE, ATTENDANCE_DEVICE){
+angular.module('aadinathUI').controller('adminCtrl', function($scope, $window, $http, $state, ngDialog, authService, toaster, $timeout, getRecord, EMP_DOCUMENT_TYPE, ATTENDANCE_DEVICE){
 
 	// $scope.filter = {
 	// 	searchType: 'byMonth'
@@ -82,7 +82,7 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
 		{id:2,option:'By surveyor name',value:'bySurveyor'},
 		{id:3,option:'By status',value:'byStatus'},
 		{id:4,option:'By Only Date',value:'byDate'}
-		
+
 	];
 	$scope.mapFilters = [
 		{ id:1,option:'By All District',value:'byAlldistrict'},
@@ -93,11 +93,11 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
 	$scope.options = {
 		type: 'column'
 	}
-    
+
 	function init() {
 	$scope.getAllDistrict = getRecord.getAllDistrict({parent_code:1,type:2});
 	$scope.surveyRecord = getRecord.surveyRecord();
-	$scope.surveyorRecord = getRecord.surveyorRecord();	
+	$scope.surveyorRecord = getRecord.surveyorRecord();
 	$scope.filterGoogleItem = 'byAlldistrict';
 	$scope.filterHttpData.typeName= 'byAlldistrict';
 	$scope.filteredMapData = getRecord.getFilteredMapData($scope.filterHttpData);
@@ -107,14 +107,14 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
   	}
 
   	$scope.update = function(){
-  		
+
   		$scope.filterHttpData.fiterBy=$scope.surveyFilterItem;
   		// $scope.filterHttpData.push({fiterBy:$scope.surveyFilterItem});
 
   		if($scope.surveyFilterItem == 'byDistrict'){
   		$scope.updateByFilterValues=$scope.getAllDistrict;
 
-  		}else if($scope.surveyFilterItem == 'bySurveyor'){  
+  		}else if($scope.surveyFilterItem == 'bySurveyor'){
 
   			$scope.updateByFilterValues = $scope.surveyorRecord;
 
@@ -128,11 +128,11 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
   		// console.log($scope.surveyorRecord);
   		$scope.filterHttpData.typeName = $scope.filterGoogleItem;
   		if($scope.filterGoogleItem == 'byAlldistrict'){
-			//$scope.filterHttpData.typeName = $scope.filterGoogleItem;		
-  			
+			//$scope.filterHttpData.typeName = $scope.filterGoogleItem;
+
   			//$scope.updateGoogleMapFilters=$scope.getAllDistrict;
-  			$scope.filteredMapData = getRecord.getFilteredMapData($scope.filterHttpData); 
-  		
+  			$scope.filteredMapData = getRecord.getFilteredMapData($scope.filterHttpData);
+
   		}
   		if($scope.filterGoogleItem == 'bySpecificdistrict'){
   			console.log($scope.filterHttpData);
@@ -142,7 +142,7 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
   			//console.log($scope.updateGoogleMapFilters);
   		}
   		if($scope.filterGoogleItem == 'bySurveyor'){
-  			
+
   			$scope.filterHttpData.typeName = $scope.filterGoogleItem;
   			$scope.updateGoogleMapFilters=$scope.surveyorRecord;
   			console.log($scope.filterHttpData);
@@ -155,8 +155,8 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
 
   	$scope.getDataForMap = function(){
   		console.log($scope.filterHttpData);
-		$scope.filteredMapData = getRecord.getFilteredMapData($scope.filterHttpData); 		
-  	
+		$scope.filteredMapData = getRecord.getFilteredMapData($scope.filterHttpData);
+
   	}
 
 
@@ -172,9 +172,9 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
 
   	$scope.filterSurveyData = function (){
   		console.log('adhajdhjhsda');
-  			
+
   		if($scope.updateByFilterItem){
-  			$scope.filterHttpData.fiterValue = $scope.updateByFilterItem; 
+  			$scope.filterHttpData.fiterValue = $scope.updateByFilterItem;
   		}
   		$scope.surveyRecord = getRecord.surveyRecord($scope.filterHttpData);
   		console.log($scope.filterHttpData);
@@ -274,45 +274,7 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
 		},
 		data : function(){
 			$http.get('server/controller/hr.php?choice=dashboardData').success(function(result) {
-				if(result.status){
-					$scope.home = result.success;
-					$scope.filterResult = [];
-					$scope.filter.emp_id = $scope.empId;
-					$http.post('server/controller/crm.php?choice=getReports', $scope.filter).success(function(result) {
-						if(result.status){
-							var jsonObj = [];
-							jQuery.each(result.success, function(i, val) {
-									var jsonObj1 = [];
-									jQuery.each(val.data, function(j, val1) {
-									var arr = [];
-									arr.push(val1.month_name);
-									arr.push(parseFloat(val1.total));
-									jsonObj1.push(arr);
-								});
-								val.data = jsonObj1;
-								jsonObj.push(val);
-							});
-							//console.log(jsonObj);
-							$scope.chart = {
-								options: {
-									chart: {
-										type: 'column'
-									}
-								},
-								series:(jsonObj),
-								title: {
-									text: result.reportType
-								}
-							}
-							$scope.chartLength = jsonObj.length;
-						} else {
-							$scope.filterResult = [];
-							$scope.chartLength = 0;
-						}
-					});
-				} else {
-					$scope.home = {};
-				}
+				$scope.home = result;
 			});
 		}
 	};
@@ -938,7 +900,7 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
                 console.log($scope.filteredMapData);
                 $scope.filteredMapData.forEach(function(data){
                 	if($scope.filterGoogleItem=='bySpecificdistrict' || $scope.filterGoogleItem=='bySurveyor'){
-                		
+
                 		var marker = new google.maps.Marker({
 	                        position: new google.maps.LatLng(data.latitude, data.longnitude),
 	                        map: map,
@@ -957,13 +919,13 @@ angular.module('aadinathUI').controller('hrCtrl', function($scope, $window, $htt
                              infowindow = new google.maps.InfoWindow({
                                 content: 'Hello, World!!'
                         	});
-                       
+
                             infowindow.open(map, marker);
                         });
                     })(marker, i);
 
                 	i++;
-                	
+
 
                 });return false;
 

@@ -34,6 +34,9 @@
 		left: 50% !important;
 		margin-left: -375px !important;
 	}
+	.main-content {
+		margin-left: 35px !important;
+	}
 	.main-navigation {
 		width: 35px !important;
 	}
@@ -191,7 +194,7 @@
 		display: none;
 	}
 	/***
-	 Horizontal menu
+	 Horizontal menu 
 	 ***/
 	.horizontal-menu ul.nav li.current .selected, .horizontal-menu ul.nav li.active .selected {
 		display: none;
@@ -251,7 +254,7 @@
 	.sidebar-search input.editable {
 		display: block ;
 		width: 200px ;
-		opacity: 1;
+		opacity: 1;		
 	}
 	body.login .main-login {
 		margin-top: 0;
@@ -416,14 +419,14 @@
  /* ---------------------------------------------------------------------- */
 @media (min-width: 768px) {
 	.main-navigation {
-		width: 17.7%;
-		float: left;
+		position: absolute;
+		width: 15%;
 	}
 	.navbar-collapse.in {
 		overflow-y: visible;
 	}
 	.main-content {
-    width: 100%;
+		margin-left: 15%;
 	}
 	.page-full-width .main-content {
     	margin-left: 0 !important;
@@ -448,6 +451,7 @@
 	 Set style for small navigation menu
 	 ***/
 	.navigation-small .main-content {
+		margin-left: 35px !important;
 	}
 	.navigation-small .main-navigation {
 		width: 35px !important;
@@ -514,4 +518,4 @@
 		top: 100%;
 		display: block !important;
 	}
-}
+}	

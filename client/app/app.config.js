@@ -41,125 +41,46 @@ aadinathUI.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvi
             skip: true
         }
     });
-	//hr section URLs
-	$stateProvider.state('main.hr', {
-		url: '/hr',
+	//admin section URLs
+	$stateProvider.state('main.admin', {
+		url: '/admin',
 		views:{
-		  "menu": {templateUrl: 'client/app/hr/menu.html'},
-			"content": {templateUrl: 'client/app/hr/dashboard.html',
-				controller: 'hrCtrl',
+		  "menu": {templateUrl: 'client/app/admin/menu.html'},
+			"content": {templateUrl: 'client/app/admin/dashboard.html',
+				controller: 'adminCtrl',
 			}
 		},
 		resolve: {
 			loadUserController : function ($ocLazyLoad) {
-				return $ocLazyLoad.load(['client/app/hr/hrCtrl.js']);
+				return $ocLazyLoad.load(['client/app/admin/adminCtrl.js']);
 			}
 		},
 		ncyBreadcrumb: {
 			label: 'Dashboard',
             ncyBreadcrumbLabel: '<i class="fa fa-home"></i>'
 		}
-	}).state('main.hr.dashboard', {
+	}).state('main.admin.dashboard', {
 		url: '/dashboard',
 		views:{
-		  "content@main": {templateUrl: 'client/app/hr/dashboard.html',
-							controller: 'hrCtrl',}
+		  "content@main": {templateUrl: 'client/app/admin/dashboard.html',
+							controller: 'adminCtrl',}
 		},
 		ncyBreadcrumb: {
 			label: 'Dashboard',
-			parent: 'main.hr'
+			parent: 'main.admin'
 		}
-	}).state('main.hr.kaizen', {
-		url: '/kaizen',
+	}).state('main.admin.reports', {
+		url: '/reports/{pageType}',
 		views:{
-		  "content@main": {templateUrl: 'client/app/hr/kaizen/view.html',
-							controller: 'hrCtrl',}
+		  "content@main": {templateUrl: function($stateParams){ return 'client/app/admin/reports/'+$stateParams.pageType+'.html' },
+							controller: 'adminCtrl',}
 		},
 		ncyBreadcrumb: {
-			label: 'Kaizen',
-			parent: 'main.hr'
-		}
-	}).state('main.hr.training', {
-		url: '/training',
-		views:{
-		  "content@main": {templateUrl: 'client/app/hr/training/view.html',
-							controller: 'hrCtrl',}
-		},
-		ncyBreadcrumb: {
-			label: 'Training',
-			parent: 'main.hr'
-		}
-	}).state('main.hr.managementUpdate', {
-		url: '/managementUpdate',
-		views:{
-		  "content@main": {templateUrl: 'client/app/hr/managementUpdate/announcement.html',
-							controller: 'hrCtrl'},
-		},
-		ncyBreadcrumb: {
-			skip:true
-		}
-	}).state('main.hr.managementUpdate.announcement', {
-		url: '/announcement',
-		views:{
-		  "content@main": {templateUrl: 'client/app/hr/managementUpdate/announcement.html',
-							controller: 'hrCtrl'},
-		},
-		ncyBreadcrumb: {
-			label: 'Announcement',
-			parent: 'main.hr',
-		}
-	}).state('main.hr.managementUpdate.holidayList', {
-		url: '/holidayList',
-		views:{
-		  "content@main": {templateUrl: 'client/app/hr/managementUpdate/holidayList.html',
-							controller: 'hrCtrl'},
-		},
-		ncyBreadcrumb: {
-			label: 'Holiday List',
-			parent: 'main.hr',
-		}
-	}).state('main.hr.employee', {
-		url: '/employee/{pageType}',
-		views:{
-      "content@main": {templateUrl: function($stateParams){ return 'client/app/hr/employee/'+$stateParams.pageType+'.html' },
-							controller: 'hrCtrl'},
-		},
-		ncyBreadcrumb: {
-			label: 'Employee',
-			parent: 'main.hr',
-		}
-	}).state('main.hr.attendance', {
-		url: '/attendance/{pageType}',
-		views:{
-		  "content@main": {templateUrl: function($stateParams){ return 'client/app/hr/attendance/'+$stateParams.pageType+'.html' },
-							controller: 'hrCtrl',}
-		},
-		ncyBreadcrumb: {
-			label: 'Attendance',
-			parent: 'main.hr'
-		}
-	}).state('main.hr.salaryMaster', {
-		url: '/salaryMaster/{pageType}',
-		views:{
-		  "content@main": {templateUrl: function($stateParams){ return 'client/app/hr/salaryMaster/'+$stateParams.pageType+'.html' },
-							controller: 'hrCtrl',}
-		},
-		ncyBreadcrumb: {
-			label: 'Salary Master',
-			parent: 'main.hr'
-		}
-	}).state('main.hr.payroll', {
-		url: '/payroll/{pageType}',
-		views:{
-		  "content@main": {templateUrl: function($stateParams){ return 'client/app/hr/payroll/'+$stateParams.pageType+'.html' },
-							controller: 'hrCtrl',}
-		},
-		ncyBreadcrumb: {
-			label: 'Payroll',
-			parent: 'main.hr'
+			label: 'reports',
+			parent: 'main.admin'
 		}
 	});
-  //hr section URLs
+  //admin section URLs
 	$stateProvider.state('main.crm', {
 		url: '/crm',
 		views:{

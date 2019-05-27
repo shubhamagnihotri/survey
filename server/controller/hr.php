@@ -8,6 +8,55 @@ $choice= $_GET['choice'];
 
 switch($choice){
 
+	case 'dashboardData':
+	$totalsurveyQuery = "SELECT count(id) AS total_survey  from  survey_data ";
+
+	$result['total_survey'] =  mysql_fetch_array(mysql_query($totalsurveyQuery))['total_survey'];
+
+	$coverSuryoverQuery = "SELECT count(*) AS total_suryover  from  employee WHERE role_id = 4 ";
+	$result['total_suryover'] =  mysql_fetch_array(mysql_query($coverSuryoverQuery))['total_suryover'];
+
+	$totalSupervisorQuery = "SELECT count(*) AS total_supervisor  from  employee WHERE role_id = 3 ";
+
+	$result['total_supervisor'] =  mysql_fetch_array(mysql_query($totalSupervisorQuery))['total_supervisor'];
+
+
+/*
+	$pendingsurveyQuery = "SELECT count(survey_status) as pending_survey from survey_data WHERE survey_status=1 ";
+	$result['pending_survey'] =  mysql_fetch_array(mysql_query($pendingsurveyQuery))['pending_survey'];
+
+
+	$approvesurveyQuery = "SELECT count(survey_status) as approve_survey from survey_data WHERE survey_status=2 ";
+	$result['approve_survey'] =  mysql_fetch_array(mysql_query($approvesurveyQuery))['approve_survey'];
+
+	$rejectedsurveyQuery = "SELECT count(survey_status) as rejected_survey from survey_data WHERE survey_status=3 ";
+	$result['rejected_survey'] =  mysql_fetch_array(mysql_query($rejectedsurveyQuery))['rejected_survey'];
+*/
+	$coverdist_surveycount = "SELECT city.name,`district`,count(*) AS sum FROM `survey_data` INNER JOIN city on survey_data.district=city.id GROUP BY `district`";
+
+	$rescoverdist_surveycount=mysql_query($coverdist_surveycount);
+	while($row=mysql_fetch_assoc($rescoverdist_surveycount)){
+
+				$result['total_distict_wise'][] = $row;
+	}
+
+	$qry = "SELECT count(id) as total, CONCAT(first_name,' ', middle_name, ' ', last_name) as name,survey_remark, house_no, survey_status as status,id, s.full_name FROM survey_data sd JOIN employee e on sd.user_id = e.emp_id JOIN employee s ON s.emp_id = e.supervisor_id WHERE survey_status=1 GROUP BY e.supervisor_id";
+
+	$res=mysql_query($qry);
+	while($row=mysql_fetch_assoc($res)){
+
+				$result['approval_pending'][] = $row;
+	}
+	$qry = "SELECT full_name FROM employee e ";
+
+	$res=mysql_query($qry);
+	while($row=mysql_fetch_assoc($res)){
+
+				$result['loggedid_users'][] = $row;
+	}
+	echo json_encode($result);
+	break;
+
 	case 'addEmployee':
 	$postdata = json_decode(file_get_contents('php://input'),true);
 	$preStr = null;

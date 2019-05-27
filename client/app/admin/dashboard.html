@@ -1,0 +1,85 @@
+<div class="row viewBackground hr-dashboard" ng-controller="adminCtrl" ng-init="dashboard.init()">
+	<div class="panel-body">
+		<div class="row varspace">
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Total Interviews</div>
+				<div class="total_count">{{home.total_survey}}</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Total Supervisor</div>
+				<div class="total_count">{{home.total_supervisor}}</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Total Investigator</div>
+				<div class="total_count">{{home.total_suryover}}</div>
+			</div>
+		</div>
+		<div class="row varspace">
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">District Covered</div>
+				<div class="table-responsive dashboardDiv">
+					<table class="table table-condensed table-bordered table-striped table-theme table-head-fix">
+						<thead>
+							<tr>
+								<th class="word-wrap">District</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="home.total_distict_wise.length" ng-repeat="district in home.total_distict_wise">
+								<td>{{district.name}}</td>
+								<td>{{district.sum}}</td>
+							</tr>
+							<tr ng-if="!home.total_distict_wise.length">
+								<td colspan="2">No Records</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Approval Pending from Supervisor</div>
+				<div class="table-responsive dashboardDiv">
+					<table class="table table-condensed table-bordered table-striped table-theme table-head-fix">
+						<thead>
+							<tr>
+								<th class="word-wrap" style="width: 50%">Name</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="home.approval_pending.length" ng-repeat="supervisor in home.approval_pending">
+								<td>{{supervisor.full_name}}</td>
+								<td>{{supervisor.total}}</td>
+							</tr>
+							<tr ng-if="!home.approval_pending.length">
+								<td colspan="2">No Records</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<div class="title-background center">Logged in Users</div>
+				<div class="table-responsive dashboardDiv">
+					<table class="table table-condensed table-bordered table-striped table-theme table-head-fix">
+						<thead>
+							<tr>
+								<th class="word-wrap" style="width: 50%">Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-if="home.loggedid_users.length" ng-repeat="users in home.loggedid_users">
+								<td>{{users.full_name}}</td>
+							</tr>
+							<tr ng-if="!home.loggedid_users.length">
+								<td>No Records</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

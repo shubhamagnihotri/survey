@@ -2,8 +2,8 @@
 /*  Navbar and navbar elements
  /* ---------------------------------------------------------------------- */
 .navbar-inverse{
-  background-color: #01B7A8;
-  border-color: #01B7A8;
+  background-color: #0082b6;
+  border-color: #0082b6;
   height: 60px;
 }
 .navbar-brand {
@@ -161,7 +161,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	background-color: #FFFFFF;
 	border: 1px solid #D5D5D5;
 	border-radius: 0 0 0 0 !important;
-	color: #858585;
+	color: #000;
 	font-family: inherit;
 	font-size: 14px;
 	line-height: 1.2;
@@ -1025,7 +1025,6 @@ color: #AAAAAA !important;
  /* ---------------------------------------------------------------------- */
 .main-container {
 	margin-top: 60px;
-  display: flex;
 }
 .page-full-width .main-container {
 	margin-top: 98px;
@@ -1034,7 +1033,6 @@ color: #AAAAAA !important;
 	margin-top: 0 !important;
 }
 .main-content {
-  float: left;
 	margin-top: 0;
 	background-color: #FFFFFF;
 	padding: 0;
@@ -1160,6 +1158,7 @@ ul.main-navigation-menu > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu
 /*navigation toggler*/
 .navigation-toggler {
 	cursor: pointer;
+	margin-left: 78%;
 	margin-top: 10px;
     border-bottom: 1px solid #fff;
     height: 42px;
@@ -1256,7 +1255,7 @@ ul.main-navigation-menu > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu
 	font-size: 12px;
 	padding: 8px 20px 5px;
 	position: relative;
-    background-color:#01B7A8;
+    background-color:#0082b6;
 }
 .footer-inner {
 	float: left;
@@ -1406,7 +1405,7 @@ span.star:before {
 }
 
 .nav-tabs > li> a, .nav-tabs > li> a:hover {
-    background-color:#6d7f93;
+    background-color:#0082b6;
     border-color:transparent;
     color: #fff;
 }
@@ -4294,4 +4293,20 @@ td.column-right {
 }
 #page-sidebar .discussion .messages p{
     font-size: 12px;
+}
+@font-face {
+  font-display: fallback;
+}
+#mytab li{
+  cursor: pointer;
+}
+
+
+.table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td {
+    padding: 3px;
+}
+.tr-ng-grid .tr-ng-column-header .tr-ng-title {
+    padding-top: 0.3em;
+    position: relative;
+    padding-bottom: 0.3em;
 }
