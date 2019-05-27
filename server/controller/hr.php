@@ -65,7 +65,7 @@ switch($choice){
 		$dbObj->insertRow('employee', $postdata, ['iQTest','roles','skills','']);
 	} else {
 		foreach($postdata as $key=>$val){
-			$notallowded = array('id', 'ngDialogId', 'department', 'same_address', 'fdg', 'iQTest');
+			$notallowded = array('id', 'ngDialogId', 'department', 'same_address', 'fdg', 'iQTest', 'roles');
 			if(!in_array($key, $notallowded)){
 				if($key == 'dob' || $key == 'doj'){
 					$val = date("Y-m-d h:m:s", strtotime($val));

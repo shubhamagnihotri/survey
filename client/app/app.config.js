@@ -79,6 +79,16 @@ aadinathUI.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvi
 			label: 'reports',
 			parent: 'main.admin'
 		}
+	}).state('main.admin.user', {
+		url: '/user/{pageType}',
+		views:{
+      "content@main": {templateUrl: function($stateParams){ return 'client/app/admin/user/'+$stateParams.pageType+'.html' },
+							controller: 'adminCtrl'},
+		},
+		ncyBreadcrumb: {
+			label: 'Users',
+			parent: 'main.admin',
+		}
 	});
   //admin section URLs
 	$stateProvider.state('main.crm', {

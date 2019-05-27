@@ -7,7 +7,7 @@ angular.module('aadinathUI').controller('adminCtrl', function($scope, $window, $
 	// };
 	$scope.dashboard = {};
 	$scope.viewEmployee = function() {
-		$scope.filter.roleId = $scope.userDetail.roleId;
+		//$scope.filter.roleId = $scope.userDetail.roleId;
 		$scope.employeeList = getRecord.viewEmployee($scope.filter);
 		//console.log($scope.employeeList);
 		$scope.filter.payroll = false;
