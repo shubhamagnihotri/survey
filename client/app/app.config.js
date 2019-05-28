@@ -69,6 +69,16 @@ aadinathUI.config(function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvi
 			label: 'Dashboard',
 			parent: 'main.admin'
 		}
+	}).state('main.admin.chartDetail', {
+		url: '/chartDetail/{pageType}',
+		views:{
+		  "content@main": {templateUrl: function($stateParams){ return 'client/app/admin/reports/'+$stateParams.pageType+'.html' },
+							controller: 'adminCtrl',}
+		},
+		ncyBreadcrumb: {
+			label: 'reports',
+			parent: 'main.admin'
+		}
 	}).state('main.admin.reports', {
 		url: '/reports/{pageType}',
 		views:{

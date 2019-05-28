@@ -105,7 +105,7 @@ switch($choice){
 		$viewEmpQuery = "SELECT emp.*, DATE_FORMAT(emp.dob, '%Y-%m-%d') AS dob, DATE_FORMAT(emp.doj, '%Y-%m-%d') AS doj, r.name AS department FROM employee emp JOIN roles r ON emp.role_id=r.id WHERE emp_id = '$empId' AND emp.status=1 ORDER BY emp.full_name";
 	}
 	else{
-		$viewEmpQuery = "SELECT emp.*, DATE_FORMAT(emp.dob, '%Y-%m-%d') AS dob, DATE_FORMAT(emp.doj, '%Y-%m-%d') AS doj, r.name AS department FROM employee emp JOIN roles r ON emp.role_id=r.id WHERE emp.status=1 ORDER BY emp.full_name";
+		$viewEmpQuery = "SELECT emp.*, DATE_FORMAT(emp.dob, '%Y-%m-%d') AS dob, DATE_FORMAT(emp.doj, '%Y-%m-%d') AS doj, r.name AS department,r.name  as department FROM employee emp JOIN roles r ON emp.role_id=r.id WHERE emp.status=1 ORDER BY emp.full_name";
 	}
 	$response = mysql_query($viewEmpQuery);
 	if(mysql_num_rows($response) > 0){

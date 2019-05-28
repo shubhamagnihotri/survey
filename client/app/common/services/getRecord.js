@@ -241,6 +241,5 @@ aadinathUI.service('getRecord', function ($http) {
         });
         return getRolesData;
     }
-
  
 });

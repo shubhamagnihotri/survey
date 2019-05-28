@@ -10,7 +10,7 @@ angular.module('aadinathUI').controller('adminCtrl', function($scope, $window, $
 		//$scope.filter.roleId = $scope.userDetail.roleId;
 		$scope.employeeList = getRecord.viewEmployee($scope.filter);
 		//console.log($scope.employeeList);
-		$scope.filter.payroll = false;
+		//$scope.filter.payroll = false;
 		$scope.salaryList = $scope.employeeList;
 	}
 
@@ -102,9 +102,137 @@ angular.module('aadinathUI').controller('adminCtrl', function($scope, $window, $
 	$scope.filterHttpData.typeName= 'byAlldistrict';
 	$scope.filteredMapData = getRecord.getFilteredMapData($scope.filterHttpData);
 	$scope.getRolesRecords = getRecord.getRolesRecord();
-	 console.log($scope.getRolesRecords);
+	//$scope.getPieChartDetail();
+	//$scope.getBarChartDetail();
+	 //console.log($scope.getRolesRecords);
 
   	}
+	
+  	$scope.getPieChartDetail = function(){
+  	Highcharts.chart('pieChart', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: ''
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: [{
+            name: 'Chrome',
+            y: 61.41,
+            sliced: true,
+            selected: true
+        }, {
+            name: 'Internet Explorer',
+            y: 11.84
+        }, {
+            name: 'Firefox',
+            y: 10.85
+        }, {
+            name: 'Edge',
+            y: 4.67
+        }, {
+            name: 'Safari',
+            y: 4.18
+        }, {
+            name: 'Sogou Explorer',
+            y: 1.64
+        }, {
+            name: 'Opera',
+            y: 1.6
+        }, {
+            name: 'QQ',
+            y: 1.2
+        }, {
+            name: 'Other',
+            y: 2.61
+       	 }]
+    	}]
+	});
+  	}
+
+  	$scope.getBarChartDetail = function(){
+  		 Highcharts.chart('barChart', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Stacked column chart'
+    },
+    xAxis: {
+        categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Total fruit consumption'
+        },
+        stackLabels: {
+            enabled: true,
+            style: {
+                fontWeight: 'bold',
+                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+            }
+        }
+    },
+    legend: {
+        align: 'right',
+        x: -30,
+        verticalAlign: 'top',
+        y: 25,
+        floating: true,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{point.x}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: {
+                enabled: true,
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+            }
+        }
+    },
+    series: [{
+        name: 'John',
+        data: [5, 3, 4, 7, 2]
+    }, {
+        name: 'Jane',
+        data: [2, 2, 3, 2, 1]
+    }, {
+        name: 'Joe',
+        data: [3, 4, 4, 2, 5]
+    }]
+});
+}
+
 
   	$scope.update = function(){
 
@@ -1176,5 +1304,124 @@ angular.module('aadinathUI').controller('adminCtrl', function($scope, $window, $
 			//$scope.payrollObj.payroll.total_amount_paid = ((parseFloat($scope.payrollObj.payroll.net_amount) + parseFloat($scope.payrollObj.payroll.ot_amount)) - (parseFloat($scope.payrollObj.payroll.pf) + parseFloat($scope.payrollObj.payroll.esi) + parseFloat($scope.payrollObj.payroll.advance_given) + parseFloat($scope.payrollObj.payroll.security_deducted))).toFixed(2);
 		},
 	}
+
+	$scope.getDistrictCoverdSurvey = function(){
+        //getRolesData = [];
+        $http.get('server/controller/survey.php?choice=getDistrictCoverdSurvey').success(function(data){
+            if(data.status){
+            	let obj = [];
+            	data.success.forEach(function(val) {
+					  console.log(val);
+					  let data = {};
+					  data.name = val.name;
+					  data.y = parseFloat(val.y);
+					  obj.push(data);
+					});
+            	console.log(obj);
+
+                Highcharts.chart('pieChart', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: '<b>District wise report</b>'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    series: [{
+        name: 'District wise report',
+        colorByPoint: true,
+        data: obj
+    	}]
+	});
+            }
+        });
+    }
+
+    $scope.getDistrictByChart = function(){
+        //getRolesData = [];
+        $http.get('server/controller/survey.php?choice=getCoveredDistrictByMap').success(function(data){
+            if(data.status){
+            	let obj = [];
+            	data.success.forEach(function(val) {
+					  console.log(val);
+					  let data = {};
+					  data.name = val.name;
+					  data.y = parseFloat(val.y);
+					  obj.push(data);
+					});
+            	console.log(obj);
+
+                Highcharts.chart('barchart', {
+			    chart: {
+			        type: 'column'
+			    },
+			    title: {
+			        text: 'Stacked column chart'
+			    },
+			    yAxis: {
+			        min: 0,
+			        title: {
+			            text: 'Total fruit consumption'
+			        },
+			        stackLabels: {
+			            enabled: true,
+			            style: {
+			                fontWeight: 'bold',
+			                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+			            }
+			        }
+			    },
+			    legend: {
+			        align: 'right',
+			        x: -30,
+			        verticalAlign: 'top',
+			        y: 25,
+			        floating: true,
+			        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+			        borderColor: '#CCC',
+			        borderWidth: 1,
+			        shadow: false
+			    },
+			    tooltip: {
+			        headerFormat: '<b>{point.x}</b><br/>',
+			        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+			    },
+			    plotOptions: {
+			        column: {
+			            stacking: 'normal',
+			            dataLabels: {
+			                enabled: true,
+			                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+			            }
+			        }
+			    },
+			    series: data.success
+			});
+            }
+        });
+    }
+
+
+
+
+
 	init();
 });

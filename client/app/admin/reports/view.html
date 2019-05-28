@@ -48,14 +48,16 @@
 				</div>
 			</div>
 		</form> -->
+		
 		<div class="row varspace">
-			<div class="col-sm-3">
 
+			<div class="col-sm-3">
+				
 				<select class="form-control" ng-model="surveyFilterItem" ng-change="update()">
 	              <option ng-repeat="surveyFilter in surveyFilterBy" value="{{surveyFilter.value}}">{{ surveyFilter.option }}</option>
 	            </select>
 			</div>
-			<div class="col-sm-3" ng-if="surveyFilterItem && surveyFilterItem=='byDistrict'">
+			<div class="col-sm-3 mt-2" ng-if="surveyFilterItem && surveyFilterItem=='byDistrict'">
 				
 				<select class="form-control" ng-model="filterHttpData.fiterValue">
 	              <option ng-repeat="updateByFilter in updateByFilterValues" value="{{updateByFilter.id}}">{{ updateByFilter.name }}</option>
@@ -99,11 +101,11 @@
 						<th>Remark</th>
 						<th>Status</th>
 					</tr>
-					<tr>
+				<!-- 	<tr>
 						<td colspan="8">
 							<input type="text" ng-model="serachSurveyData" placeholder="search survey data" class="form-control">
 						</td>
-					</tr>
+					</tr> -->
 				</thead>
 				<tbody>
 					<tr ng-if="surveyRecord.length" ng-repeat="surveyRec in surveyRecord | filter:serachSurveyData ">

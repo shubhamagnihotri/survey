@@ -75,7 +75,83 @@ switch($choice){
 
 	break;
 
+	
+
+
+	case 'getDistrictCoverdSurvey':
+
+	$query = "SELECT name, COUNT(survey_data.id) AS y FROM survey_data INNER JOIN city ON survey_data.district=city.id GROUP BY survey_data.district";
+	$run_query = mysql_query($query);
+	if(mysql_num_rows($run_query) > 0){
+		//$queryData = mysql_fetch_assoc($run_query);
+		$result=[];$i=0;
+		while($row = mysql_fetch_assoc($run_query)){
+			$result[$i] = $row;
+
+			$i++;
+		}
+		echo json_encode(array('status'=>true,'success'=>$result));
+	}else{
+		echo json_encode(array('status'=>false, 'error'=>'Details Not Exist'));
+	}
+
+
+
+
+	break;
+
+
+	case 'getCoveredDistrictByMap':
+
+	$query = "SELECT name, city.id as cityId, survey_data.id, survey_status  FROM survey_data INNER JOIN city ON survey_data.district=city.id";
+	$run_query = mysql_query($query);
+	if(mysql_num_rows($run_query) > 0){
+		//$queryData = mysql_fetch_assoc($run_query);
+		$result=[];$i=0;
+		while($row = mysql_fetch_assoc($run_query)){
+			if(!isset($result[$row['name']]['pending'])){
+				$result[$row['name']]['pending'] = 0;
+			}
+			if(!isset($result[$row['name']]['approve'])){
+				$result[$row['name']]['approve'] = 0;
+			}
+			if(!isset($result[$row['name']]['rejected'])){
+				$result[$row['name']]['rejected'] = 0;
+			}
+			if($row['survey_status'] == 1){				
+				$result[$row['name']]['pending'] += 1;
+			}elseif($row['survey_status'] == 2){				
+				$result[$row['name']]['approve'] += 1;
+			}elseif($row['survey_status'] == 3){				
+				$result[$row['name']]['rejected'] += 1;
+			}
+
+			$i++;
+		}
+		$res = array();
+		$i = 0;
+		foreach ($result as $key => $value) {
+			$res[$i]['name'] = $key;
+			$data = array();
+			foreach ($value as $val) {
+				$data[] = $val;
+			}
+			$res[$i]['data'] = $data;
+			$i++;
+		}
+		echo json_encode(array('status'=>true,'success'=>$res));
+	}else{
+		echo json_encode(array('status'=>false, 'error'=>'Details Not Exist'));
+	}
+
+	
+
+
+	break;
+
 	$dbObj->disconnect();
+
+
 
 }
 

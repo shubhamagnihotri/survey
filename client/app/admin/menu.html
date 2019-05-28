@@ -23,7 +23,7 @@
 	<li>
 		<a ui-sref="main.admin.reports({pageType: 'view'})">
 			<i class="fa fa-reorder"></i>
-			<span class="title">Survey </span>
+			<span class="title">Reports </span>
 			<span class="selected"></span>
 		</a>
 		<ul class="sub-menu sub-menu-height">
@@ -35,6 +35,16 @@
 			<li>
 				<a ui-sref="main.admin.reports({pageType: 'view'})" ng-class="{active:$state.current.ncyBreadcrumbLink ==='#/admin/reports/view'}">
 					<span class="title">View</span>
+				</a>
+			</li>
+			<li>
+				<a ui-sref="main.admin.reports({pageType: 'pieChart'})" ng-class="{active:$state.current.ncyBreadcrumbLink ==='#/admin/reports/pieChart'}">
+					<span class="title">Chart 1</span>
+				</a>
+			</li>
+			<li>
+				<a ui-sref="main.admin.reports({pageType: 'barChart'})" ng-class="{active:$state.current.ncyBreadcrumbLink ==='#/admin/reports/barChart'}">
+					<span class="title">Chart 2</span>
 				</a>
 			</li>
 		</ul>
@@ -52,5 +62,5 @@
 				</a>
 			</li>
 		</ul>
-	</li> -->
+	</li> --> 
 </ul>
